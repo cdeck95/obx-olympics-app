@@ -24,7 +24,7 @@ const Home: React.FC = () => {
   };
 
   return (
-    <main className="flex flex-col min-h-screen w-full items-start justify-center p-8 gap-4">
+    <main className="flex flex-col min-h-screen w-full items-start justify-start p-8 gap-4">
       <div className="grid grid-col-1 w-full items-start justify-center gap-4">
         <h1>Match Scores</h1>
         <ScoreReporter matches={matches} onScoreUpdate={handleScoreUpdate} />

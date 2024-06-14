@@ -46,8 +46,8 @@ export default function Home() {
   console.log("Group B Standings", groupBStandings);
 
   return (
-    <main className="flex flex-col min-h-screen w-full items-start justify-center p-8 gap-4">
-      <div className="grid grid-cols-1 w-full items-start justify-center gap-4">
+    <main className="flex flex-col min-h-screen w-full items-start justify-start p-8 gap-4">
+      <div className="grid grid-cols-1 w-full items-start justify-start gap-4">
         <h1 className="text-3xl font-bold">Standings</h1>
         <Tabs defaultValue="groupA" className="w-full">
           <TabsList>

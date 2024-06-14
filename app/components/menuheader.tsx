@@ -13,6 +13,8 @@ import {
   CalendarSearch,
   CalendarPlus,
   LayoutDashboard,
+  CalendarCheck2,
+  Swords,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet } from "@/components/ui/sheet";
@@ -33,6 +35,7 @@ import { DialogTrigger } from "@/components/ui/dialog";
 import { useTheme } from "next-themes";
 import logo from "@/public/logo.png";
 import { ModeToggle } from "@/components/ui/ModeToggle";
+import { Label } from "@/components/ui/label";
 
 interface KindeUser {
   family_name: string;
@@ -58,13 +61,14 @@ function MenuHeader() {
         <SheetContent side="left" className="flex flex-col overflow-auto">
           <div className="flex h-14 items-center border-b px-1 mr-2 lg:h-[60px] lg:px-6 pb-2 gap-2">
             <div className="flex items-center gap-2 font-semibold tracking-tight">
-              <Image
-                src={logo}
-                width={0}
-                height={0}
-                alt="Disc Rescue Network"
-                style={{ width: "auto", height: "auto", maxHeight: "50px" }}
-              />
+              {/* <Image
+              src={logo}
+              width={0}
+              height={0}
+              alt="Disc Rescue Network"
+              style={{ width: "auto", height: "auto", maxHeight: "50px" }}
+            /> */}
+              <Label className="text-lg font-semibold">OBX Olympics 2024</Label>
             </div>
           </div>
           <nav className="grid gap-2 text-lg font-medium">
@@ -82,7 +86,7 @@ function MenuHeader() {
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                 >
                   <Medal className="h-4 w-4" />
-                  Leaderboard
+                  Standings
                 </Link>
               </Button>
             </DialogTrigger>
@@ -93,11 +97,11 @@ function MenuHeader() {
                 className="w-full justify-start flex gap-2 my-1"
               >
                 <Link
-                  href="/check-in"
+                  href="/schedule"
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                 >
-                  <Home className="h-4 w-4" />
-                  Check In
+                  <CalendarCheck2 className="h-4 w-4" />
+                  Schedule
                 </Link>
               </Button>
             </DialogTrigger>
@@ -108,11 +112,11 @@ function MenuHeader() {
                 className="w-full justify-start flex gap-2 my-1"
               >
                 <Link
-                  href="/my-rounds"
+                  href="/bracket"
                   className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
                 >
-                  <NotebookText className="h-4 w-4" />
-                  My Rounds
+                  <Swords className="h-4 w-4" />
+                  Bracket
                 </Link>
               </Button>
             </DialogTrigger>

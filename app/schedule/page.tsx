@@ -36,7 +36,7 @@ export default function Schedule() {
   // console.log(combinedSchedule);
 
   return (
-    <main className="flex flex-col min-h-screen w-full items-start justify-center p-8 gap-4">
+    <main className="flex flex-col min-h-screen w-full items-start justify-start p-8 gap-4">
       <div className="grid grid-cols-1 w-full gap-4">
         <div className="flex flex-row w-full items-center gap-4">
           <h1 className="text-2xl font-bold">Team Schedules</h1>
