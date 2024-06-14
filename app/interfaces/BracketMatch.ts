@@ -1,4 +1,5 @@
-// interfaces/BracketMatch.ts
+import { Game } from "react-tournament-bracket/lib/components/model";
+
 export interface Team {
   id: string;
   name: string;
@@ -8,9 +9,17 @@ export interface Score {
   score: number;
 }
 
+export interface Seed {
+  displayName: string;
+  rank: number;
+  sourceGame?: Game; // Optional sourceGame
+  sourcePool?: object;
+}
+
 export interface Side {
   team: Team;
   score: Score;
+  seed: Seed;
 }
 
 export interface Sides {
@@ -23,5 +32,4 @@ export interface BracketMatch {
   name: string;
   scheduled: number;
   sides: Sides;
-  children: BracketMatch[];
 }

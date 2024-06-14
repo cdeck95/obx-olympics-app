@@ -17,8 +17,8 @@ const Home: React.FC = () => {
   const [groupAStandings, setGroupAStandings] = useState<TeamStanding[]>([]);
   const [groupBStandings, setGroupBStandings] = useState<TeamStanding[]>([]);
   const [bracketData, setBracketData] = useState<{
-    playInMatch: BracketMatch;
-    mainBracket: BracketMatch[];
+    playInMatch: Game;
+    mainBracket: Game[];
   } | null>(null);
 
   useEffect(() => {
@@ -38,13 +38,13 @@ const Home: React.FC = () => {
     setGroupAStandings(calculatedGroupAStandings);
     setGroupBStandings(calculatedGroupBStandings);
 
-    // Create the bracket data using the calculated standings
     const bracket = createBracketData(
       calculatedGroupAStandings,
       calculatedGroupBStandings
     );
     setBracketData(bracket);
   }, []);
+
   return (
     <main className="flex flex-col min-h-screen w-full items-start justify-start p-8 gap-4">
       {/* <div className="grid grid-col-1 w-full items-start justify-center gap-4">
@@ -53,12 +53,7 @@ const Home: React.FC = () => {
       </div> */}
       <div className="p-8">
         <h1 className="text-2xl font-bold">Tournament Bracket</h1>
-        {bracketData && (
-          <BracketTree
-            playInMatch={bracketData.playInMatch}
-            mainBracket={bracketData.mainBracket}
-          />
-        )}
+        {bracketData && <BracketTree mainBracket={bracketData.mainBracket} />}
       </div>
     </main>
   );
