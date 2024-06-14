@@ -1,0 +1,16 @@
+{
+  "name": "OBX Olympics Bracket",
+  "short_name": "OBX Olympics",
+  "icons": [
+    {
+      "src": "@/public/logo.png",
+      "sizes": "500x500",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#FFFFFF",
+  "background_color": "#FFFFFF",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
