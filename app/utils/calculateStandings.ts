@@ -8,6 +8,7 @@ const calculateStandings = (
   const standingsMap: { [team: string]: TeamStanding } = {};
   teams.forEach((team) => {
     standingsMap[team] = {
+      position: 0,
       team,
       won: 0,
       lost: 0,
@@ -39,9 +40,16 @@ const calculateStandings = (
     standingsMap[team].winPercentage = won / (won + lost);
   });
 
-  return Object.values(standingsMap).sort(
+  const sortedStandings = Object.values(standingsMap).sort(
     (a, b) => b.winPercentage - a.winPercentage
   );
+
+  // Assign position based on the index in the sorted array
+  sortedStandings.forEach((team, index) => {
+    team.position = index + 1;
+  });
+
+  return sortedStandings;
 };
 
 export { calculateStandings };
