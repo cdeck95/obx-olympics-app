@@ -63,6 +63,7 @@ export default function Home() {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead>Position</TableHead>
                       <TableHead>Team</TableHead>
                       <TableHead>Played</TableHead>
                       <TableHead>Won</TableHead>
@@ -73,6 +74,7 @@ export default function Home() {
                   <TableBody>
                     {groupAStandings.map((standing) => (
                       <TableRow key={standing.team}>
+                        <TableCell>{standing.position}</TableCell>
                         <TableCell>{standing.team}</TableCell>
                         <TableCell>{standing.played}</TableCell>
                         <TableCell>{standing.won}</TableCell>

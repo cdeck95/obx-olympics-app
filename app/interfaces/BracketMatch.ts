@@ -1,4 +1,4 @@
-import { Game } from "react-tournament-bracket/lib/components/model";
+import { Game } from "@g-loot/react-tournament-brackets";
 
 export interface Team {
   id: string;
