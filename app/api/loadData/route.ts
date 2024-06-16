@@ -15,12 +15,7 @@ export async function GET() {
     console.log("Parsed data:", jsonData);
 
     // Validate the data format
-    if (
-      jsonData &&
-      typeof jsonData === "object" &&
-      "playInMatch" in jsonData &&
-      "mainBracket" in jsonData
-    ) {
+    if (jsonData && typeof jsonData === "object" && "mainBracket" in jsonData) {
       return NextResponse.json(jsonData);
     } else {
       console.error("Invalid data format:", jsonData);
