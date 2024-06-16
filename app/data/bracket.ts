@@ -1,249 +1,242 @@
-import { BracketMatch } from "../interfaces/BracketMatch";
-import { TeamStanding } from "../interfaces/TeamStanding";
+import { Game } from "@g-loot/react-tournament-brackets";
+import { simulateGroupPlay } from "../utils/simulateGroupPlay";
+
+interface TeamStanding {
+  team: string;
+  won: number;
+  lost: number;
+  winPercentage: number;
+  headToHeadWins: number;
+}
+
+interface BracketMatch extends Game {
+  children?: BracketMatch[];
+}
 
 export const createBracketData = (
   groupAStandings: TeamStanding[],
   groupBStandings: TeamStanding[]
-): { playInMatch: BracketMatch; mainBracket: BracketMatch[] } => {
-  // Combine both group standings
+) => {
   const combinedStandings = [...groupAStandings, ...groupBStandings].sort(
     (a, b) => b.winPercentage - a.winPercentage
   );
 
-  // Top 7 teams and the play-in teams (8th and 9th)
-  const topTeams = combinedStandings.slice(0, 7);
-  const playInTeams = combinedStandings.slice(7, 9);
-
   const playInMatch: BracketMatch = {
-    id: "playIn",
-    name: "Play-In Game",
-    scheduled: Date.now(),
-    sides: {
-      home: {
-        team: {
-          id: "8",
-          name: playInTeams[0]?.team || "8th Seed",
-        },
-        score: {
-          score: 0,
-        },
+    id: "playin",
+    name: "Play-in Match",
+    nextMatchId: "quarter1",
+    tournamentRoundText: "Play-in",
+    startTime: "Flip Cup", // Play-in game station
+    state: "PENDING",
+    participants: [
+      {
+        id: combinedStandings[7].team,
+        name: combinedStandings[7].team,
+        isWinner: false,
+        status: null,
+        resultText: "",
       },
-      visitor: {
-        team: {
-          id: "9",
-          name: playInTeams[1]?.team || "9th Seed",
-        },
-        score: {
-          score: 0,
-        },
+      {
+        id: combinedStandings[8].team,
+        name: combinedStandings[8].team,
+        isWinner: false,
+        status: null,
+        resultText: "",
       },
-    },
-    children: [],
+    ],
   };
 
   const quarterFinals: BracketMatch[] = [
     {
-      id: "qf1",
+      id: "quarter1",
       name: "Quarterfinal 1",
-      scheduled: Date.now(),
-      sides: {
-        home: {
-          team: {
-            id: "1",
-            name: topTeams[0]?.team || "1st Seed",
-          },
-          score: {
-            score: 0,
-          },
+      nextMatchId: "semi1",
+      tournamentRoundText: "Quarterfinals",
+      startTime: "Cornhole",
+      state: "PENDING",
+      participants: [
+        {
+          id: combinedStandings[0].team,
+          name: combinedStandings[0].team,
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-        visitor: {
-          team: {
-            id: "playInWinner",
-            name: "Winner of Play-In",
-          },
-          score: {
-            score: 0,
-          },
+        {
+          id: "winner_playin",
+          name: "Winner of Play-in",
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-      },
-      children: [],
+      ],
     },
     {
-      id: "qf2",
+      id: "quarter2",
       name: "Quarterfinal 2",
-      scheduled: Date.now(),
-      sides: {
-        home: {
-          team: {
-            id: "4",
-            name: topTeams[3]?.team || "4th Seed",
-          },
-          score: {
-            score: 0,
-          },
+      nextMatchId: "semi1",
+      tournamentRoundText: "Quarterfinals",
+      startTime: "Cornhole",
+      state: "PENDING",
+      participants: [
+        {
+          id: combinedStandings[1].team,
+          name: combinedStandings[1].team,
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-        visitor: {
-          team: {
-            id: "5",
-            name: topTeams[4]?.team || "5th Seed",
-          },
-          score: {
-            score: 0,
-          },
+        {
+          id: combinedStandings[6].team,
+          name: combinedStandings[6].team,
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-      },
-      children: [],
+      ],
     },
     {
-      id: "qf3",
+      id: "quarter3",
       name: "Quarterfinal 3",
-      scheduled: Date.now(),
-      sides: {
-        home: {
-          team: {
-            id: "2",
-            name: topTeams[1]?.team || "2nd Seed",
-          },
-          score: {
-            score: 0,
-          },
+      nextMatchId: "semi2",
+      tournamentRoundText: "Quarterfinals",
+      startTime: "Cornhole",
+      state: "PENDING",
+      participants: [
+        {
+          id: combinedStandings[2].team,
+          name: combinedStandings[2].team,
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-        visitor: {
-          team: {
-            id: "7",
-            name: topTeams[6]?.team || "7th Seed",
-          },
-          score: {
-            score: 0,
-          },
+        {
+          id: combinedStandings[5].team,
+          name: combinedStandings[5].team,
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-      },
-      children: [],
+      ],
     },
     {
-      id: "qf4",
+      id: "quarter4",
       name: "Quarterfinal 4",
-      scheduled: Date.now(),
-      sides: {
-        home: {
-          team: {
-            id: "3",
-            name: topTeams[2]?.team || "3rd Seed",
-          },
-          score: {
-            score: 0,
-          },
+      nextMatchId: "semi2",
+      tournamentRoundText: "Quarterfinals",
+      startTime: "Cornhole",
+      state: "PENDING",
+      participants: [
+        {
+          id: combinedStandings[3].team,
+          name: combinedStandings[3].team,
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-        visitor: {
-          team: {
-            id: "6",
-            name: topTeams[5]?.team || "6th Seed",
-          },
-          score: {
-            score: 0,
-          },
+        {
+          id: combinedStandings[4].team,
+          name: combinedStandings[4].team,
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-      },
-      children: [],
+      ],
     },
   ];
 
   const semiFinals: BracketMatch[] = [
     {
-      id: "sf1",
+      id: "semi1",
       name: "Semifinal 1",
-      scheduled: Date.now(),
-      sides: {
-        home: {
-          team: {
-            id: "winnerQF1",
-            name: "Winner of QF1",
-          },
-          score: {
-            score: 0,
-          },
+      nextMatchId: "final",
+      tournamentRoundText: "Semifinals",
+      startTime: "Can Jam",
+      state: "PENDING",
+      participants: [
+        {
+          id: "winner_quarter1",
+          name: "Winner of Quarterfinal 1",
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-        visitor: {
-          team: {
-            id: "winnerQF2",
-            name: "Winner of QF2",
-          },
-          score: {
-            score: 0,
-          },
+        {
+          id: "winner_quarter2",
+          name: "Winner of Quarterfinal 2",
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-      },
-      children: [],
+      ],
     },
     {
-      id: "sf2",
+      id: "semi2",
       name: "Semifinal 2",
-      scheduled: Date.now(),
-      sides: {
-        home: {
-          team: {
-            id: "winnerQF3",
-            name: "Winner of QF3",
-          },
-          score: {
-            score: 0,
-          },
+      nextMatchId: "final",
+      tournamentRoundText: "Semifinals",
+      startTime: "Can Jam",
+      state: "PENDING",
+      participants: [
+        {
+          id: "winner_quarter3",
+          name: "Winner of Quarterfinal 3",
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-        visitor: {
-          team: {
-            id: "winnerQF4",
-            name: "Winner of QF4",
-          },
-          score: {
-            score: 0,
-          },
+        {
+          id: "winner_quarter4",
+          name: "Winner of Quarterfinal 4",
+          isWinner: false,
+          status: null,
+          resultText: "",
         },
-      },
-      children: [],
+      ],
     },
   ];
 
   const finalMatch: BracketMatch = {
     id: "final",
     name: "Final",
-    scheduled: Date.now(),
-    sides: {
-      home: {
-        team: {
-          id: "winnerSF1",
-          name: "Winner of SF1",
-        },
-        score: {
-          score: 0,
-        },
+    nextMatchId: null,
+    tournamentRoundText: "Final",
+    startTime: "Gauntlet",
+    state: "PENDING",
+    participants: [
+      {
+        id: "winner_semi1",
+        name: "Winner of Semifinal 1",
+        isWinner: false,
+        status: null,
+        resultText: "",
       },
-      visitor: {
-        team: {
-          id: "winnerSF2",
-          name: "Winner of SF2",
-        },
-        score: {
-          score: 0,
-        },
+      {
+        id: "winner_semi2",
+        name: "Winner of Semifinal 2",
+        isWinner: false,
+        status: null,
+        resultText: "",
       },
-    },
-    children: [],
+    ],
   };
 
   // Link the matches together
-  semiFinals[0].children.push(finalMatch);
-  semiFinals[1].children.push(finalMatch);
+  quarterFinals[0].participants[1].id = playInMatch.id;
+  semiFinals[0].participants[0].id = quarterFinals[0].id;
+  semiFinals[0].participants[1].id = quarterFinals[1].id;
+  semiFinals[1].participants[0].id = quarterFinals[2].id;
+  semiFinals[1].participants[1].id = quarterFinals[3].id;
+  finalMatch.participants[0].id = semiFinals[0].id;
+  finalMatch.participants[1].id = semiFinals[1].id;
 
-  quarterFinals[0].children.push(semiFinals[0]);
-  quarterFinals[1].children.push(semiFinals[0]);
-  quarterFinals[2].children.push(semiFinals[1]);
-  quarterFinals[3].children.push(semiFinals[1]);
-
-  // Play-In winner links to the first quarterfinal
-  playInMatch.children.push(quarterFinals[0]);
-
-  return {
+  // Combine all matches into the main bracket
+  const mainBracket: Game[] = [
     playInMatch,
-    mainBracket: quarterFinals,
-  };
+    ...quarterFinals,
+    ...semiFinals,
+    finalMatch,
+  ];
+
+  return mainBracket;
 };

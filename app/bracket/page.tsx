@@ -4,64 +4,102 @@ import React, { useEffect, useState } from "react";
 import ScoreReporter from "../components/ScoreReporter";
 import { Match } from "../interfaces/Match";
 import { createBracketData } from "../data/bracket";
-import { Bracket } from "react-tournament-bracket";
 import { TeamStanding } from "../interfaces/TeamStanding";
 import { calculateStandings } from "../utils/calculateStandings";
 import { scheduleA } from "../data/schedule";
 import { scheduleB } from "../data/schedule";
-import { Game } from "react-tournament-bracket/lib/components/model";
 import { BracketMatch } from "../interfaces/BracketMatch";
 import BracketTree from "../components/BracketTree";
+import { loadDataUtil, saveDataUtil } from "../utils/dataUtils";
+import { toast } from "@/components/ui/use-toast";
+import { simulateGroupPlay } from "../utils/simulateGroupPlay";
 
-const Home: React.FC = () => {
+const BracketDisplay: React.FC = () => {
   const [groupAStandings, setGroupAStandings] = useState<TeamStanding[]>([]);
   const [groupBStandings, setGroupBStandings] = useState<TeamStanding[]>([]);
-  const [bracketData, setBracketData] = useState<{
-    playInMatch: BracketMatch;
-    mainBracket: BracketMatch[];
-  } | null>(null);
+  const [bracketData, setBracketData] = useState<any[]>([]);
+
+  const handleSaveData = async (data: any) => {
+    try {
+      await saveDataUtil(data);
+      alert("Data saved successfully");
+    } catch (error) {
+      console.error("Error saving data:", error);
+      alert("Error saving data");
+    }
+  };
+
+  const handleLoadData = async () => {
+    try {
+      const data = await loadDataUtil();
+      setBracketData(data.mainBracket);
+    } catch (error) {
+      console.error("Error loading data:", error);
+      alert("Error loading data");
+    }
+  };
 
   useEffect(() => {
-    const groupA = ["Mexico", "Germany", "Italy", "Greece", "Ireland"];
-    const groupB = ["USA", "Canada", "France", "Australia"];
+    const loadDataAsync = async () => {
+      try {
+        await handleLoadData(); // Load data on component mount
 
-    const calculatedGroupAStandings = calculateStandings(
-      groupA,
-      scheduleA.flatMap((round) => round.matches)
-    );
+        if (bracketData.length === 0) {
+          const groupA = ["Mexico", "Germany", "Italy", "Greece", "Ireland"];
+          const groupB = ["USA", "Canada", "France", "Australia"];
 
-    const calculatedGroupBStandings = calculateStandings(
-      groupB,
-      scheduleB.flatMap((round) => round.matches)
-    );
+          const { standingsA, standingsB } = simulateGroupPlay(
+            scheduleA,
+            scheduleB,
+            groupA,
+            groupB
+          );
 
-    setGroupAStandings(calculatedGroupAStandings);
-    setGroupBStandings(calculatedGroupBStandings);
+          setGroupAStandings(standingsA);
+          setGroupBStandings(standingsB);
 
-    // Create the bracket data using the calculated standings
-    const bracket = createBracketData(
-      calculatedGroupAStandings,
-      calculatedGroupBStandings
-    );
-    setBracketData(bracket);
+          // const calculatedGroupAStandings = calculateStandings(
+          //   groupA,
+          //   scheduleA.flatMap((round) => round.matches)
+          // );
+
+          // const calculatedGroupBStandings = calculateStandings(
+          //   groupB,
+          //   scheduleB.flatMap((round) => round.matches)
+          // );
+
+          // setGroupAStandings(calculatedGroupAStandings);
+          // setGroupBStandings(calculatedGroupBStandings);
+
+          // const bracket = createBracketData(
+          //   calculatedGroupAStandings,
+          //   calculatedGroupBStandings
+          // );
+
+          console.log("Group A standings:", standingsA);
+          console.log("Group B standings:", standingsB);
+          const bracket = createBracketData(standingsA, standingsB);
+          console.log("Bracket data:", bracket);
+          setBracketData(bracket);
+        }
+      } catch (error) {
+        console.error("Error initializing data:", error);
+      }
+    };
+
+    loadDataAsync();
   }, []);
+
   return (
-    <main className="flex flex-col min-h-screen w-full items-start justify-start p-8 gap-4">
-      {/* <div className="grid grid-col-1 w-full items-start justify-center gap-4">
-        <h1>Match Scores</h1>
-        <ScoreReporter matches={matches} onScoreUpdate={handleScoreUpdate} />
-      </div> */}
-      <div className="p-8">
-        <h1 className="text-2xl font-bold">Tournament Bracket</h1>
-        {bracketData && (
-          <BracketTree
-            playInMatch={bracketData.playInMatch}
-            mainBracket={bracketData.mainBracket}
-          />
-        )}
-      </div>
-    </main>
+    <div className="grid min-h-screen w-full text-center items-start">
+      <h1>Tournament Bracket</h1>
+      {bracketData.length > 0 && <BracketTree mainBracket={bracketData} />}
+      <button onClick={() => handleSaveData({ mainBracket: bracketData })}>
+        Save Data
+      </button>
+      <button onClick={handleLoadData}>Load Data</button>
+    </div>
   );
 };
 
-export default Home;
+export default BracketDisplay;

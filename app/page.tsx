@@ -63,23 +63,25 @@ export default function Home() {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead>Position</TableHead>
                       <TableHead>Team</TableHead>
-                      <TableHead>Played</TableHead>
-                      <TableHead>Won</TableHead>
-                      <TableHead>Lost</TableHead>
+                      <TableHead>Record</TableHead>
                       <TableHead>Win %</TableHead>
+                      <TableHead>Games Played</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {groupAStandings.map((standing) => (
                       <TableRow key={standing.team}>
+                        <TableCell>{standing.position}</TableCell>
                         <TableCell>{standing.team}</TableCell>
-                        <TableCell>{standing.played}</TableCell>
-                        <TableCell>{standing.won}</TableCell>
-                        <TableCell>{standing.lost}</TableCell>
                         <TableCell>
-                          {standing.winPercentage.toFixed(2)}%
+                          {standing.won} - {standing.lost}
                         </TableCell>
+                        <TableCell>
+                          {(standing.winPercentage * 100).toFixed(0)}%
+                        </TableCell>
+                        <TableCell>{standing.played}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
@@ -96,23 +98,27 @@ export default function Home() {
                 <Table>
                   <TableHeader>
                     <TableRow>
+                      <TableHead>Position</TableHead>
                       <TableHead>Team</TableHead>
-                      <TableHead>Played</TableHead>
-                      <TableHead>Won</TableHead>
-                      <TableHead>Lost</TableHead>
+                      <TableHead>Record</TableHead>
+                      {/* <TableHead>Won</TableHead>
+                      <TableHead>Lost</TableHead> */}
                       <TableHead>Win %</TableHead>
+                      <TableHead>Games Played</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {groupBStandings.map((standing) => (
                       <TableRow key={standing.team}>
+                        <TableCell>{standing.position}</TableCell>
                         <TableCell>{standing.team}</TableCell>
-                        <TableCell>{standing.played}</TableCell>
-                        <TableCell>{standing.won}</TableCell>
-                        <TableCell>{standing.lost}</TableCell>
                         <TableCell>
-                          {standing.winPercentage.toFixed(2)}%
+                          {standing.won} - {standing.lost}
                         </TableCell>
+                        <TableCell>
+                          {(standing.winPercentage * 100).toFixed(0)}%
+                        </TableCell>
+                        <TableCell>{standing.played}</TableCell>
                       </TableRow>
                     ))}
                   </TableBody>
