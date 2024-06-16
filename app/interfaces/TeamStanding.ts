@@ -4,4 +4,5 @@ export interface TeamStanding {
   won: number;
   lost: number;
   winPercentage: number;
+  headToHeadWins: number;
 }
