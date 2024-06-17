@@ -62,7 +62,7 @@ export default function Home() {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-[50px]">Rank</TableHead>
-                    <TableHead className="min-w-[110px]">Team</TableHead>
+                    <TableHead className="min-w-[120px]">Team</TableHead>
                     <TableHead>Record</TableHead>
                     <TableHead className="min-w-[75px]">Win %</TableHead>
                     <TableHead>Games Played</TableHead>
