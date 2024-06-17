@@ -33,13 +33,13 @@ export default function Schedule() {
   }, [schedule]);
 
   return (
-    <main className="flex flex-col min-h-screen w-full items-start justify-start p-8 gap-4">
+    <>
       {loading ? (
         <div className="grid grid-cols-1 w-full gap-4">Loading...</div>
       ) : (
         <div className="grid grid-cols-1 w-full gap-4">
           <div className="flex flex-row w-full items-center gap-4">
-            <h1 className="text-2xl font-bold">Team Schedules</h1>
+            <h1 className="text-2xl font-bold">Schedule</h1>
             <TeamSelector
               teams={teams}
               selectedTeam={selectedTeam!}
@@ -55,6 +55,6 @@ export default function Schedule() {
           )}
         </div>
       )}
-    </main>
+    </>
   );
 }
