@@ -20,6 +20,7 @@ import {
   Medal,
   NotebookText,
   Settings,
+  ShieldCheck,
   Swords,
 } from "lucide-react";
 import DRNLightLogo from "@/public/tags_logo_lightmode_long.png";
@@ -117,6 +118,23 @@ function SideMenu() {
               >
                 <Swords className="h-4 w-4" />
                 Bracket
+              </Link>
+            </Button>
+            <h2 className="my-4 px-4 text-lg font-semibold tracking-tight">
+              Admin Tools
+            </h2>
+
+            <Button
+              asChild
+              variant={pathname === "/admin" ? "secondary" : "ghost"}
+              className="w-full justify-start flex gap-2 my-1"
+            >
+              <Link
+                href="/admin"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <ShieldCheck className="h-4 w-4" />
+                Manage Tournament
               </Link>
             </Button>
           </nav>

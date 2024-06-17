@@ -5,9 +5,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Team } from "../hooks/useTeams";
 
 interface TeamSelectorProps {
-  teams: string[];
+  teams: Team[];
   selectedTeam: string;
   onSelect: (selectedTeam: string) => void;
 }
@@ -24,8 +25,8 @@ const TeamSelector: React.FC<TeamSelectorProps> = ({
       </SelectTrigger>
       <SelectContent>
         {teams.map((team) => (
-          <SelectItem key={team} value={team}>
-            {team}
+          <SelectItem key={team.id} value={team.name}>
+            {team.name}
           </SelectItem>
         ))}
       </SelectContent>

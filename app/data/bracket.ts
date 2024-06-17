@@ -1,5 +1,4 @@
 import { Game } from "@g-loot/react-tournament-brackets";
-import { simulateGroupPlay } from "../utils/simulateGroupPlay";
 
 interface TeamStanding {
   team: string;
@@ -27,7 +26,7 @@ export const createBracketData = (
     nextMatchId: "quarter1",
     tournamentRoundText: "Play-in",
     startTime: "Flip Cup", // Play-in game station
-    state: "PENDING",
+    state: "upcoming",
     participants: [
       {
         id: combinedStandings[7].team,
@@ -53,7 +52,7 @@ export const createBracketData = (
       nextMatchId: "semi1",
       tournamentRoundText: "Quarterfinals",
       startTime: "Cornhole",
-      state: "PENDING",
+      state: "upcoming",
       participants: [
         {
           id: combinedStandings[0].team,
@@ -77,7 +76,7 @@ export const createBracketData = (
       nextMatchId: "semi1",
       tournamentRoundText: "Quarterfinals",
       startTime: "Cornhole",
-      state: "PENDING",
+      state: "upcoming",
       participants: [
         {
           id: combinedStandings[1].team,
@@ -101,7 +100,7 @@ export const createBracketData = (
       nextMatchId: "semi2",
       tournamentRoundText: "Quarterfinals",
       startTime: "Cornhole",
-      state: "PENDING",
+      state: "upcoming",
       participants: [
         {
           id: combinedStandings[2].team,
@@ -125,7 +124,7 @@ export const createBracketData = (
       nextMatchId: "semi2",
       tournamentRoundText: "Quarterfinals",
       startTime: "Cornhole",
-      state: "PENDING",
+      state: "upcoming",
       participants: [
         {
           id: combinedStandings[3].team,
@@ -152,7 +151,7 @@ export const createBracketData = (
       nextMatchId: "final",
       tournamentRoundText: "Semifinals",
       startTime: "Can Jam",
-      state: "PENDING",
+      state: "upcoming",
       participants: [
         {
           id: "winner_quarter1",
@@ -176,7 +175,7 @@ export const createBracketData = (
       nextMatchId: "final",
       tournamentRoundText: "Semifinals",
       startTime: "Can Jam",
-      state: "PENDING",
+      state: "upcoming",
       participants: [
         {
           id: "winner_quarter3",
@@ -202,7 +201,7 @@ export const createBracketData = (
     nextMatchId: null,
     tournamentRoundText: "Final",
     startTime: "Gauntlet",
-    state: "PENDING",
+    state: "upcoming",
     participants: [
       {
         id: "winner_semi1",

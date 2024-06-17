@@ -1,0 +1,67 @@
+{
+  "teams": [
+    {
+      "id": 1,
+      "name": "Mexico",
+      "flag": "🇲🇽",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    },
+    {
+      "id": 2,
+      "name": "Germany",
+      "flag": "🇩🇪",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    },
+    {
+      "id": 3,
+      "name": "Italy",
+      "flag": "🇮🇹",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    },
+    {
+      "id": 4,
+      "name": "Greece",
+      "flag": "🇬🇷",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    },
+    {
+      "id": 5,
+      "name": "Ireland",
+      "flag": "🇮🇪",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    },
+    {
+      "id": 6,
+      "name": "USA",
+      "flag": "🇺🇸",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    },
+    {
+      "id": 7,
+      "name": "Canada",
+      "flag": "🇨🇦",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    },
+    {
+      "id": 8,
+      "name": "France",
+      "flag": "🇫🇷",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    },
+    {
+      "id": 9,
+      "name": "Australia",
+      "flag": "🇦🇺",
+      "gamesPlayed": 0,
+      "stationHistory": []
+    }
+  ]
+}
