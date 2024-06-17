@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import MenuHeader from "./components/menuheader";
 import SideMenu from "./components/sidemenu";
 import { Toaster } from "@/components/ui/toaster";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const inter = Inter({ subsets: ["latin"] });
 
