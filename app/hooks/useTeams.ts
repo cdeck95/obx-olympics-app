@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
-
-export interface Team {
-  id: number;
-  name: string;
-  group: string;
-  gamesPlayed: number;
-  stationHistory: string[];
-}
+import { Team } from "../interfaces/Team";
 
 interface TeamsData {
   teams: Team[];

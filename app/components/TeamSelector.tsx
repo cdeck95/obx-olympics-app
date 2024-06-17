@@ -5,7 +5,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Team } from "../hooks/useTeams";
+import { Team } from "../interfaces/Team";
 
 interface TeamSelectorProps {
   teams: Team[];

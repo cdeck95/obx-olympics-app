@@ -61,10 +61,10 @@ export default function Home() {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Position</TableHead>
-                    <TableHead>Team</TableHead>
+                    <TableHead className="w-[50px]">Rank</TableHead>
+                    <TableHead className="min-w-[110px]">Team</TableHead>
                     <TableHead>Record</TableHead>
-                    <TableHead>Win %</TableHead>
+                    <TableHead className="min-w-[75px]">Win %</TableHead>
                     <TableHead>Games Played</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -76,8 +76,8 @@ export default function Home() {
                     return (
                       <TableRow key={standing.team}>
                         <TableCell>{standing.position}</TableCell>
-                        <TableCell>
-                          {team ? `${team.flag} ${team.name}` : standing.team}
+                        <TableCell className="min-w-fit">
+                          {team ? `${team.name} ${team.flag} ` : standing.team}
                         </TableCell>
                         <TableCell>
                           {standing.won} - {standing.lost}

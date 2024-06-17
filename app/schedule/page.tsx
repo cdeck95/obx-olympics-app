@@ -7,8 +7,9 @@ import TeamSelector from "../components/TeamSelector";
 import TeamMatches from "../components/TeamMatches";
 import { Match } from "../interfaces/Match";
 import { useSchedules } from "../hooks/useSchedules";
-import useTeams, { Team } from "../hooks/useTeams";
+import useTeams from "../hooks/useTeams";
 import { Round } from "../interfaces/Round";
+import { Team } from "../interfaces/Team";
 
 export default function Schedule() {
   const { schedule, loading, error } = useSchedules();
@@ -46,7 +47,11 @@ export default function Schedule() {
             />{" "}
           </div>
           {selectedTeam && (
-            <TeamMatches rounds={rounds} selectedTeam={selectedTeam} />
+            <TeamMatches
+              rounds={rounds}
+              selectedTeam={selectedTeam}
+              teams={teams}
+            />
           )}
         </div>
       )}
