@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { calculateStandings } from "./utils/calculateStandings";
-import { scheduleA, scheduleB } from "./data/schedule"; // Import your schedules
+// import { scheduleA, scheduleB } from "./data/schedule"; // Import your schedules
 import {
   Card,
   CardHeader,
@@ -19,114 +19,83 @@ import {
   TableCell,
 } from "@/components/ui/table";
 import { TeamStanding } from "./interfaces/TeamStanding";
+import { useSchedules } from "./hooks/useSchedules";
+import useTeams from "./hooks/useTeams";
 
 export default function Home() {
-  // Define the type of the state explicitly as an array of TeamStanding
-  const [groupAStandings, setGroupAStandings] = useState<TeamStanding[]>([]);
-  const [groupBStandings, setGroupBStandings] = useState<TeamStanding[]>([]);
+  const { schedule, loading, error } = useSchedules();
+  const [standings, setStandings] = useState<TeamStanding[]>([]);
+  const teamsData = useTeams();
+  const [teams, setTeams] = useState<any[]>([]);
 
   useEffect(() => {
-    const groupA = ["Mexico", "Germany", "Italy", "Greece", "Ireland"];
-    const groupB = ["USA", "Canada", "France", "Australia"];
-    setGroupAStandings(
-      calculateStandings(
-        groupA,
-        scheduleA.flatMap((round) => round.matches)
-      )
-    );
-    setGroupBStandings(
-      calculateStandings(
-        groupB,
-        scheduleB.flatMap((round) => round.matches)
-      )
-    );
-  }, []);
+    if (teamsData) {
+      setTeams(teamsData.teams);
+    }
+  }, [teamsData]);
 
-  console.log("Group A Standings", groupAStandings);
-  console.log("Group B Standings", groupBStandings);
+  useEffect(() => {
+    if (schedule) {
+      try {
+        const teamsList = teams.map((team) => team.name); // Extract team names from the teams data
+        const matches = schedule.flatMap((round: any) => round.matches);
+        setStandings(calculateStandings(teamsList, matches));
+      } catch (error) {
+        console.error("Failed to calculate standings", error);
+      }
+    }
+  }, [schedule, teams]);
 
   return (
     <main className="flex flex-col min-h-screen w-full items-start justify-start p-8 gap-4">
       <div className="grid grid-cols-1 w-full items-start justify-start gap-4">
-        <h1 className="text-3xl font-bold">Standings</h1>
-        <Tabs defaultValue="groupA" className="w-full">
-          <TabsList>
-            <TabsTrigger value="groupA">Group A</TabsTrigger>
-            <TabsTrigger value="groupB">Group B</TabsTrigger>
-          </TabsList>
-          <TabsContent value="groupA">
-            <Card>
-              <CardHeader>
-                <p className="text-lg font-semibold">Group A Standings</p>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Position</TableHead>
-                      <TableHead>Team</TableHead>
-                      <TableHead>Record</TableHead>
-                      <TableHead>Win %</TableHead>
-                      <TableHead>Games Played</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {groupAStandings.map((standing) => (
+        {/* <h1 className="text-3xl font-bold">Standings</h1> */}
+        <Card>
+          <CardHeader>
+            <p className="text-lg font-semibold">Standings</p>
+          </CardHeader>
+          <CardContent>
+            {loading ? (
+              <div>Loading...</div>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Position</TableHead>
+                    <TableHead>Team</TableHead>
+                    <TableHead>Record</TableHead>
+                    <TableHead>Win %</TableHead>
+                    <TableHead>Games Played</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {standings.map((standing) => {
+                    const team = teams.find(
+                      (team) => team.name === standing.team
+                    );
+                    return (
                       <TableRow key={standing.team}>
                         <TableCell>{standing.position}</TableCell>
-                        <TableCell>{standing.team}</TableCell>
+                        <TableCell>
+                          {team ? `${team.flag} ${team.name}` : standing.team}
+                        </TableCell>
                         <TableCell>
                           {standing.won} - {standing.lost}
                         </TableCell>
                         <TableCell>
-                          {(standing.winPercentage * 100).toFixed(0)}%
+                          {isNaN(standing.winPercentage)
+                            ? "N/A"
+                            : (standing.winPercentage * 100).toFixed(0) + "%"}
                         </TableCell>
                         <TableCell>{standing.played}</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          <TabsContent value="groupB">
-            <Card>
-              <CardHeader>
-                <p className="text-lg font-semibold">Group B Standings</p>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Position</TableHead>
-                      <TableHead>Team</TableHead>
-                      <TableHead>Record</TableHead>
-                      {/* <TableHead>Won</TableHead>
-                      <TableHead>Lost</TableHead> */}
-                      <TableHead>Win %</TableHead>
-                      <TableHead>Games Played</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {groupBStandings.map((standing) => (
-                      <TableRow key={standing.team}>
-                        <TableCell>{standing.position}</TableCell>
-                        <TableCell>{standing.team}</TableCell>
-                        <TableCell>
-                          {standing.won} - {standing.lost}
-                        </TableCell>
-                        <TableCell>
-                          {(standing.winPercentage * 100).toFixed(0)}%
-                        </TableCell>
-                        <TableCell>{standing.played}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+                    );
+                  })}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
       </div>
     </main>
   );

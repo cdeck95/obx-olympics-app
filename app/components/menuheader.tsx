@@ -15,6 +15,7 @@ import {
   LayoutDashboard,
   CalendarCheck2,
   Swords,
+  ShieldCheck,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet } from "@/components/ui/sheet";
@@ -117,6 +118,24 @@ function MenuHeader() {
                 >
                   <Swords className="h-4 w-4" />
                   Bracket
+                </Link>
+              </Button>
+            </DialogTrigger>
+            <h2 className="my-4 px-4 text-lg font-semibold tracking-tight">
+              Admin Tools
+            </h2>
+            <DialogTrigger asChild>
+              <Button
+                asChild
+                variant={pathname === "/admin" ? "secondary" : "ghost"}
+                className="w-full justify-start flex gap-2 my-1"
+              >
+                <Link
+                  href="/admin"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                >
+                  <ShieldCheck className="h-4 w-4" />
+                  Manage Tournament
                 </Link>
               </Button>
             </DialogTrigger>

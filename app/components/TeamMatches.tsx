@@ -50,11 +50,11 @@ const TeamMatches: React.FC<TeamMatchesProps> = ({ rounds, selectedTeam }) => {
               style={{ gridTemplateColumns: "60% 40%" }}
             >
               <Label className="min-w-fit text-xs">
-                Round {match.roundNumber}: {match.station.name}
+                Round {match.roundNumber}
               </Label>
               <Label className="flex flex-row text-xs min-w-fit gap-1 justify-end items-center">
                 <MapPin className="h-3 w-3" />
-                {match.station.name}
+                {match.station!.name}
               </Label>
             </CardDescription>
 

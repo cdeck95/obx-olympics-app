@@ -4,8 +4,10 @@ export interface Match {
   id: number;
   team1: string;
   team2: string;
-  scoreTeam1?: number;
-  scoreTeam2?: number;
-  station: Station;
-  status: "upcoming" | "in-progress" | "completed";
+  stationId: number;
+  station?: Station;
+  scoreTeam1: number | null;
+  scoreTeam2: number | null;
+  status: string;
+  roundNumber: number;
 }

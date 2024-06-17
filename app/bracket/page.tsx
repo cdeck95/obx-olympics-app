@@ -1,13 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ScoreReporter from "../components/ScoreReporter";
 import { Match } from "../interfaces/Match";
 import { createBracketData } from "../data/bracket";
 import { TeamStanding } from "../interfaces/TeamStanding";
 import { calculateStandings } from "../utils/calculateStandings";
-import { scheduleA } from "../data/schedule";
-import { scheduleB } from "../data/schedule";
 import { BracketMatch } from "../interfaces/BracketMatch";
 import BracketTree from "../components/BracketTree";
 import { loadDataUtil, saveDataUtil } from "../utils/dataUtils";
@@ -39,56 +36,56 @@ const BracketDisplay: React.FC = () => {
     }
   };
 
-  useEffect(() => {
-    const loadDataAsync = async () => {
-      try {
-        await handleLoadData(); // Load data on component mount
+  // useEffect(() => {
+  //   const loadDataAsync = async () => {
+  //     try {
+  //       await handleLoadData(); // Load data on component mount
 
-        if (bracketData.length === 0) {
-          const groupA = ["Mexico", "Germany", "Italy", "Greece", "Ireland"];
-          const groupB = ["USA", "Canada", "France", "Australia"];
+  //       if (bracketData.length === 0) {
+  //         const groupA = ["Mexico", "Germany", "Italy", "Greece", "Ireland"];
+  //         const groupB = ["USA", "Canada", "France", "Australia"];
 
-          const { standingsA, standingsB } = simulateGroupPlay(
-            scheduleA,
-            scheduleB,
-            groupA,
-            groupB
-          );
+  //         const { standingsA, standingsB } = simulateGroupPlay(
+  //           scheduleA,
+  //           scheduleB,
+  //           groupA,
+  //           groupB
+  //         );
 
-          setGroupAStandings(standingsA);
-          setGroupBStandings(standingsB);
+  //         setGroupAStandings(standingsA);
+  //         setGroupBStandings(standingsB);
 
-          // const calculatedGroupAStandings = calculateStandings(
-          //   groupA,
-          //   scheduleA.flatMap((round) => round.matches)
-          // );
+  //         // const calculatedGroupAStandings = calculateStandings(
+  //         //   groupA,
+  //         //   scheduleA.flatMap((round) => round.matches)
+  //         // );
 
-          // const calculatedGroupBStandings = calculateStandings(
-          //   groupB,
-          //   scheduleB.flatMap((round) => round.matches)
-          // );
+  //         // const calculatedGroupBStandings = calculateStandings(
+  //         //   groupB,
+  //         //   scheduleB.flatMap((round) => round.matches)
+  //         // );
 
-          // setGroupAStandings(calculatedGroupAStandings);
-          // setGroupBStandings(calculatedGroupBStandings);
+  //         // setGroupAStandings(calculatedGroupAStandings);
+  //         // setGroupBStandings(calculatedGroupBStandings);
 
-          // const bracket = createBracketData(
-          //   calculatedGroupAStandings,
-          //   calculatedGroupBStandings
-          // );
+  //         // const bracket = createBracketData(
+  //         //   calculatedGroupAStandings,
+  //         //   calculatedGroupBStandings
+  //         // );
 
-          console.log("Group A standings:", standingsA);
-          console.log("Group B standings:", standingsB);
-          const bracket = createBracketData(standingsA, standingsB);
-          console.log("Bracket data:", bracket);
-          setBracketData(bracket);
-        }
-      } catch (error) {
-        console.error("Error initializing data:", error);
-      }
-    };
+  //         console.log("Group A standings:", standingsA);
+  //         console.log("Group B standings:", standingsB);
+  //         const bracket = createBracketData(standingsA, standingsB);
+  //         console.log("Bracket data:", bracket);
+  //         setBracketData(bracket);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error initializing data:", error);
+  //     }
+  //   };
 
-    loadDataAsync();
-  }, []);
+  //   loadDataAsync();
+  // }, []);
 
   return (
     <div className="grid min-h-screen w-full text-center items-start">
