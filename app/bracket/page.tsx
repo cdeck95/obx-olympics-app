@@ -10,11 +10,36 @@ import BracketTree from "../components/BracketTree";
 import { loadDataUtil, saveDataUtil } from "../utils/dataUtils";
 import { toast } from "@/components/ui/use-toast";
 import { simulateGroupPlay } from "../utils/simulateGroupPlay";
+import { useSchedules } from "../hooks/useSchedules";
+import useTeams from "../hooks/useTeams";
 
 const BracketDisplay: React.FC = () => {
-  const [groupAStandings, setGroupAStandings] = useState<TeamStanding[]>([]);
-  const [groupBStandings, setGroupBStandings] = useState<TeamStanding[]>([]);
+  // const [groupAStandings, setGroupAStandings] = useState<TeamStanding[]>([]);
+  // const [groupBStandings, setGroupBStandings] = useState<TeamStanding[]>([]);
   const [bracketData, setBracketData] = useState<any[]>([]);
+  const { schedule, loading, error } = useSchedules();
+  const [standings, setStandings] = useState<TeamStanding[]>([]);
+  const teamsData = useTeams();
+  const [teams, setTeams] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (teamsData) {
+      setTeams(teamsData.teams);
+    }
+  }, [teamsData]);
+
+  useEffect(() => {
+    if (schedule) {
+      try {
+        const teamsList = teams.map((team) => team.name); // Extract team names from the teams data
+        const matches = schedule.flatMap((round: any) => round.matches);
+        setStandings(calculateStandings(teamsList, matches));
+        console.log("Standings:", standings);
+      } catch (error) {
+        console.error("Failed to calculate standings", error);
+      }
+    }
+  }, [schedule, teams]);
 
   const handleSaveData = async (data: any) => {
     try {
@@ -36,56 +61,52 @@ const BracketDisplay: React.FC = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const loadDataAsync = async () => {
-  //     try {
-  //       await handleLoadData(); // Load data on component mount
+  useEffect(() => {
+    const loadDataAsync = async () => {
+      try {
+        await handleLoadData(); // Load data on component mount
 
-  //       if (bracketData.length === 0) {
-  //         const groupA = ["Mexico", "Germany", "Italy", "Greece", "Ireland"];
-  //         const groupB = ["USA", "Canada", "France", "Australia"];
+        if (bracketData.length === 0 && standings.length > 0) {
+          // const { standingsA, standingsB } = simulateGroupPlay(
+          //   scheduleA,
+          //   scheduleB,
+          //   groupA,
+          //   groupB
+          // );
 
-  //         const { standingsA, standingsB } = simulateGroupPlay(
-  //           scheduleA,
-  //           scheduleB,
-  //           groupA,
-  //           groupB
-  //         );
+          // setGroupAStandings(standingsA);
+          // setGroupBStandings(standingsB);
 
-  //         setGroupAStandings(standingsA);
-  //         setGroupBStandings(standingsB);
+          // const calculatedGroupAStandings = calculateStandings(
+          //   groupA,
+          //   scheduleA.flatMap((round) => round.matches)
+          // );
 
-  //         // const calculatedGroupAStandings = calculateStandings(
-  //         //   groupA,
-  //         //   scheduleA.flatMap((round) => round.matches)
-  //         // );
+          // const calculatedGroupBStandings = calculateStandings(
+          //   groupB,
+          //   scheduleB.flatMap((round) => round.matches)
+          // );
 
-  //         // const calculatedGroupBStandings = calculateStandings(
-  //         //   groupB,
-  //         //   scheduleB.flatMap((round) => round.matches)
-  //         // );
+          // setGroupAStandings(calculatedGroupAStandings);
+          // setGroupBStandings(calculatedGroupBStandings);
 
-  //         // setGroupAStandings(calculatedGroupAStandings);
-  //         // setGroupBStandings(calculatedGroupBStandings);
+          // const bracket = createBracketData(
+          //   calculatedGroupAStandings,
+          //   calculatedGroupBStandings
+          // );
 
-  //         // const bracket = createBracketData(
-  //         //   calculatedGroupAStandings,
-  //         //   calculatedGroupBStandings
-  //         // );
+          console.log("Standings:", standings);
+          const bracket = createBracketData(standings);
+          console.log("Bracket data:", bracket);
+          setBracketData(bracket);
+        }
+      } catch (error) {
+        console.error("Error initializing data:", error);
+      }
+    };
 
-  //         console.log("Group A standings:", standingsA);
-  //         console.log("Group B standings:", standingsB);
-  //         const bracket = createBracketData(standingsA, standingsB);
-  //         console.log("Bracket data:", bracket);
-  //         setBracketData(bracket);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error initializing data:", error);
-  //     }
-  //   };
-
-  //   loadDataAsync();
-  // }, []);
+    loadDataAsync();
+  }, [standings]);
 
   return (
     <div className="grid min-h-screen w-full text-center items-start">

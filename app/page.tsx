@@ -47,56 +47,54 @@ export default function Home() {
   }, [schedule, teams]);
 
   return (
-    <main className="flex flex-col min-h-screen w-full items-start justify-start p-8 gap-4">
-      <div className="grid grid-cols-1 w-full items-start justify-start gap-4">
-        {/* <h1 className="text-3xl font-bold">Standings</h1> */}
-        <Card>
-          <CardHeader>
-            <p className="text-lg font-semibold">Standings</p>
-          </CardHeader>
-          <CardContent>
-            {loading ? (
-              <div>Loading...</div>
-            ) : (
-              <Table>
-                <TableHeader>
-                  <TableRow>
-                    <TableHead className="w-[50px]">Rank</TableHead>
-                    <TableHead className="min-w-[120px]">Team</TableHead>
-                    <TableHead>Record</TableHead>
-                    <TableHead className="min-w-[75px]">Win %</TableHead>
-                    <TableHead>Games Played</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {standings.map((standing) => {
-                    const team = teams.find(
-                      (team) => team.name === standing.team
-                    );
-                    return (
-                      <TableRow key={standing.team}>
-                        <TableCell>{standing.position}</TableCell>
-                        <TableCell className="min-w-fit">
-                          {team ? `${team.name} ${team.flag} ` : standing.team}
-                        </TableCell>
-                        <TableCell>
-                          {standing.won} - {standing.lost}
-                        </TableCell>
-                        <TableCell>
-                          {isNaN(standing.winPercentage)
-                            ? "N/A"
-                            : (standing.winPercentage * 100).toFixed(0) + "%"}
-                        </TableCell>
-                        <TableCell>{standing.played}</TableCell>
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </Table>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-    </main>
+    <div className="grid grid-cols-1 w-full items-start justify-start gap-4">
+      {/* <h1 className="text-3xl font-bold">Standings</h1> */}
+      <Card>
+        <CardHeader>
+          <p className="text-lg font-semibold">Standings</p>
+        </CardHeader>
+        <CardContent>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[50px]">Rank</TableHead>
+                  <TableHead className="min-w-[120px]">Team</TableHead>
+                  <TableHead>Record</TableHead>
+                  <TableHead className="min-w-[75px]">Win %</TableHead>
+                  <TableHead>Games Played</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {standings.map((standing) => {
+                  const team = teams.find(
+                    (team) => team.name === standing.team
+                  );
+                  return (
+                    <TableRow key={standing.team}>
+                      <TableCell>{standing.position}</TableCell>
+                      <TableCell className="min-w-fit">
+                        {team ? `${team.name} ${team.flag} ` : standing.team}
+                      </TableCell>
+                      <TableCell>
+                        {standing.won} - {standing.lost}
+                      </TableCell>
+                      <TableCell>
+                        {isNaN(standing.winPercentage)
+                          ? "N/A"
+                          : (standing.winPercentage * 100).toFixed(0) + "%"}
+                      </TableCell>
+                      <TableCell>{standing.played}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          )}
+        </CardContent>
+      </Card>
+    </div>
   );
 }

@@ -34,7 +34,9 @@ export default function RootLayout({
             <SideMenu />
             <div className="w-full">
               <MenuHeader />
-              {children}
+              <main className="flex flex-col min-h-screen w-full items-start justify-start p-6 gap-4">
+                {children}
+              </main>
             </div>
           </div>
         </ThemeProvider>
