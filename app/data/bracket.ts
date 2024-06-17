@@ -12,13 +12,12 @@ interface BracketMatch extends Game {
   children?: BracketMatch[];
 }
 
-export const createBracketData = (
-  groupAStandings: TeamStanding[],
-  groupBStandings: TeamStanding[]
-) => {
-  const combinedStandings = [...groupAStandings, ...groupBStandings].sort(
+export const createBracketData = (standings: TeamStanding[]) => {
+  const combinedStandings = [...standings].sort(
     (a, b) => b.winPercentage - a.winPercentage
   );
+
+  console.log("Combined standings:", combinedStandings);
 
   const playInMatch: BracketMatch = {
     id: "playin",

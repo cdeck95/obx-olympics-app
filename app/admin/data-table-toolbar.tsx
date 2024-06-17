@@ -29,6 +29,12 @@ export function DataTableToolbar<TData>({
     roundNumber: "Round Number",
   };
 
+  const statusOptions = [
+    { value: "upcoming", label: "Upcoming" },
+    { value: "in-progress", label: "In Progress" },
+    { value: "completed", label: "Completed" },
+  ];
+
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center space-x-2">
@@ -42,13 +48,13 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         /> */}
-        {/* {table.getColumn("EventModel_location") && (
+        {table.getColumn("status") && (
           <DataTableFacetedFilter
-            column={table.getColumn("EventModel_location")}
-            title="Location"
-            options={locationOptions}
+            column={table.getColumn("status")}
+            title="Status"
+            options={statusOptions}
           />
-        )} */}
+        )}
         {isFiltered && (
           <Button
             variant="ghost"

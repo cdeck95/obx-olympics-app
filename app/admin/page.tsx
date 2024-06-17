@@ -93,6 +93,13 @@ const AdminPage: React.FC = () => {
     },
     {
       accessorKey: "status",
+      filterFn: (row, id, value) => {
+        console.log("Filtering:", {
+          rowValue: row.getValue(id),
+          filterValue: value,
+        });
+        return value.includes(row.getValue(id));
+      },
       header: ({ column }) => (
         <DataTableColumnHeader column={column} title="Status" />
       ),
@@ -263,7 +270,7 @@ const AdminPage: React.FC = () => {
   }
 
   return (
-    <div className="p-4">
+    <div className="grid grid-cols-1 w-full gap-4">
       <h1 className="text-xl mb-4">Admin Page</h1>
       <DataTable columns={columns} data={matches} />
     </div>
