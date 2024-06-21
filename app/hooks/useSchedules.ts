@@ -5,6 +5,7 @@ import { Match } from "../interfaces/Match";
 
 export const useSchedules = () => {
   const [schedule, setSchedule] = useState<Round[] | null>(null);
+  const [groupStageActive, setGroupStageActive] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,24 +40,20 @@ export const useSchedules = () => {
           );
         };
 
-        const mapScheduleWithStations = (schedule: Round[]) => {
-          console.log("Mapping schedule with stations");
-          return schedule.map((round: Round) => ({
+        const mapSchedulesWithStations = (schedules: Round[]) => {
+          console.log("Mapping schedules with stations");
+          console.log("Schedules:", schedules);
+          return schedules.map((round: Round) => ({
             ...round,
             matches: round.matches.map((match) => ({
               ...match,
               station: mapStation(match.stationId),
-              roundNumber: round.roundNumber, // Ensure roundNumber is included
             })),
           }));
         };
 
-        const scheduleWithStations = mapScheduleWithStations(
-          schedulesData.schedule
-        );
-        console.log("Schedule with stations:", scheduleWithStations);
-
-        setSchedule(scheduleWithStations);
+        setSchedule(mapSchedulesWithStations(schedulesData.schedule));
+        setGroupStageActive(schedulesData.groupStageActive);
         setLoading(false);
       } catch (error: any) {
         console.error("An error occurred:", error);
@@ -70,6 +67,7 @@ export const useSchedules = () => {
 
   return {
     schedule,
+    groupStageActive,
     loading,
     error,
   };

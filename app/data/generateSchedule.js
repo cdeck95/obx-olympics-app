@@ -28,6 +28,7 @@ const generateSchedule = (teams, stations, minGames, maxGames) => {
   const rounds = [];
   const teamStationMap = {};
   const teamGamesCount = {};
+  const matchups = new Set();
 
   // Initialize teamStationMap and teamGamesCount
   teams.forEach((team) => {
@@ -50,8 +51,11 @@ const generateSchedule = (teams, stations, minGames, maxGames) => {
       const team2 = teams[i + 1].name;
       const station = stations[i % stations.length];
 
-      // Ensure no team plays at the same station more than once and each team plays 4 or 5 games
+      const matchupKey = `${team1}-${team2}`;
+
+      // Ensure no team plays at the same station more than once, no team plays the same opponent more than once, and each team plays 4 or 5 games
       if (
+        !matchups.has(matchupKey) &&
         teamStationMap[team1][station.id] < 1 &&
         teamStationMap[team2][station.id] < 1 &&
         teamGamesCount[team1] < maxGames &&
@@ -70,6 +74,8 @@ const generateSchedule = (teams, stations, minGames, maxGames) => {
         teamStationMap[team2][station.id]++;
         teamGamesCount[team1]++;
         teamGamesCount[team2]++;
+        matchups.add(matchupKey);
+        matchups.add(`${team2}-${team1}`); // Ensure the reverse matchup is also added
       }
     }
 
@@ -108,6 +114,7 @@ const schedule = generateSchedule(
 
 const scheduleData = {
   schedule: schedule,
+  groupStageActive: false, // Initialize groupStageActive flag
 };
 
 fs.writeFileSync(

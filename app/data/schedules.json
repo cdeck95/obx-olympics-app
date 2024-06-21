@@ -6,35 +6,35 @@
         {
           "id": 1,
           "team1": "Mexico",
-          "team2": "Germany",
-          "stationId": 4,
+          "team2": "Ireland",
+          "stationId": 6,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
         },
         {
           "id": 2,
-          "team1": "Canada",
-          "team2": "Australia",
-          "stationId": 5,
+          "team1": "France",
+          "team2": "Canada",
+          "stationId": 2,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
         },
         {
           "id": 3,
-          "team1": "USA",
-          "team2": "Ireland",
-          "stationId": 1,
+          "team1": "Italy",
+          "team2": "Australia",
+          "stationId": 3,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
         },
         {
           "id": 4,
-          "team1": "Italy",
-          "team2": "France",
-          "stationId": 4,
+          "team1": "USA",
+          "team2": "Greece",
+          "stationId": 6,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -46,36 +46,27 @@
       "matches": [
         {
           "id": 5.5,
-          "team1": "France",
-          "team2": "Greece",
-          "stationId": 3,
+          "team1": "Ireland",
+          "team2": "Canada",
+          "stationId": 4,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
         },
         {
           "id": 6.5,
-          "team1": "Italy",
-          "team2": "Ireland",
-          "stationId": 6,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 7.5,
-          "team1": "Mexico",
-          "team2": "Germany",
-          "stationId": 2,
+          "team1": "Germany",
+          "team2": "Australia",
+          "stationId": 1,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
         },
         {
           "id": 8.5,
-          "team1": "Canada",
-          "team2": "Australia",
-          "stationId": 3,
+          "team1": "Mexico",
+          "team2": "Italy",
+          "stationId": 4,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -87,18 +78,9 @@
       "matches": [
         {
           "id": 12,
-          "team1": "Germany",
-          "team2": "Mexico",
-          "stationId": 5,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 13,
-          "team1": "Canada",
-          "team2": "Australia",
-          "stationId": 6,
+          "team1": "France",
+          "team2": "Greece",
+          "stationId": 3,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -110,18 +92,27 @@
       "matches": [
         {
           "id": 14.5,
-          "team1": "USA",
-          "team2": "Greece",
-          "stationId": 5,
+          "team1": "Australia",
+          "team2": "Mexico",
+          "stationId": 2,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
         },
         {
           "id": 15.5,
-          "team1": "Mexico",
+          "team1": "France",
           "team2": "Ireland",
-          "stationId": 3,
+          "stationId": 5,
+          "scoreTeam1": null,
+          "scoreTeam2": null,
+          "status": "upcoming"
+        },
+        {
+          "id": 16.5,
+          "team1": "USA",
+          "team2": "Germany",
+          "stationId": 4,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -133,8 +124,17 @@
       "matches": [
         {
           "id": 19,
-          "team1": "Mexico",
-          "team2": "Canada",
+          "team1": "Ireland",
+          "team2": "Italy",
+          "stationId": 1,
+          "scoreTeam1": null,
+          "scoreTeam2": null,
+          "status": "upcoming"
+        },
+        {
+          "id": 22,
+          "team1": "Greece",
+          "team2": "Mexico",
           "stationId": 1,
           "scoreTeam1": null,
           "scoreTeam2": null,
@@ -146,10 +146,10 @@
       "roundNumber": 6,
       "matches": [
         {
-          "id": 26.5,
-          "team1": "Italy",
-          "team2": "USA",
-          "stationId": 2,
+          "id": 24.5,
+          "team1": "France",
+          "team2": "Australia",
+          "stationId": 6,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -160,10 +160,19 @@
       "roundNumber": 7,
       "matches": [
         {
-          "id": 30,
-          "team1": "USA",
-          "team2": "Greece",
-          "stationId": 6,
+          "id": 28,
+          "team1": "Italy",
+          "team2": "USA",
+          "stationId": 5,
+          "scoreTeam1": null,
+          "scoreTeam2": null,
+          "status": "upcoming"
+        },
+        {
+          "id": 31,
+          "team1": "Mexico",
+          "team2": "Canada",
+          "stationId": 5,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -175,9 +184,9 @@
       "matches": [
         {
           "id": 34.5,
-          "team1": "France",
-          "team2": "Australia",
-          "stationId": 2,
+          "team1": "Canada",
+          "team2": "USA",
+          "stationId": 3,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -188,10 +197,10 @@
       "roundNumber": 9,
       "matches": [
         {
-          "id": 38,
-          "team1": "France",
-          "team2": "Italy",
-          "stationId": 1,
+          "id": 37,
+          "team1": "Italy",
+          "team2": "Germany",
+          "stationId": 6,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -202,10 +211,10 @@
       "roundNumber": 10,
       "matches": [
         {
-          "id": 42.5,
-          "team1": "Germany",
-          "team2": "USA",
-          "stationId": 3,
+          "id": 43.5,
+          "team1": "Greece",
+          "team2": "Australia",
+          "stationId": 4,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
@@ -217,42 +226,15 @@
       "matches": [
         {
           "id": 47,
-          "team1": "France",
-          "team2": "Italy",
-          "stationId": 5,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        }
-      ]
-    },
-    {
-      "roundNumber": 12,
-      "matches": [
-        {
-          "id": 53.5,
-          "team1": "Ireland",
-          "team2": "Canada",
+          "team1": "Greece",
+          "team2": "Germany",
           "stationId": 2,
           "scoreTeam1": null,
           "scoreTeam2": null,
           "status": "upcoming"
         }
       ]
-    },
-    {
-      "roundNumber": 13,
-      "matches": [
-        {
-          "id": 55,
-          "team1": "Australia",
-          "team2": "Greece",
-          "stationId": 4,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        }
-      ]
     }
-  ]
+  ],
+  "groupStageActive": false
 }

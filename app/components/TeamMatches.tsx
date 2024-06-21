@@ -73,8 +73,10 @@ const TeamMatches: React.FC<TeamMatchesProps> = ({
 
               <CardTitle>
                 {team1.name} vs {team2.name}
-                <br />
-                {team1.flag} vs {team2.flag}
+                {/* <br />
+                <Label className="text-xs">
+                  {team1.flag} vs {team2.flag}
+                </Label> */}
               </CardTitle>
             </CardHeader>
             <CardFooter className="flex flex-row gap-4 w-full justify-between items-end md:flex-row lg:flex-row p-4">
@@ -82,10 +84,10 @@ const TeamMatches: React.FC<TeamMatchesProps> = ({
                 <div className="flex flex-row gap-1 items-center justify-start">
                   <ClipboardPenLine className="h-4 w-4" />
                   <Label className="text-xs">
-                    Score: {match.scoreTeam1 ?? "TBD"} -{" "}
-                    {match.scoreTeam2 ?? "TBD"}
-                    {/* Score: {team1.flag} {match.scoreTeam1 ?? "TBD"} -{" "}
-                    {team2.flag} {match.scoreTeam2 ?? "TBD"} */}
+                    {/* Score: {match.scoreTeam1 ?? "TBD"} -{" "}
+                    {match.scoreTeam2 ?? "TBD"} */}
+                    Score: {team1.flag} {match.scoreTeam1 ?? "TBD"} -{" "}
+                    {team2.flag} {match.scoreTeam2 ?? "TBD"}
                   </Label>
                 </div>
                 <div className="flex flex-row gap-1 items-center justify-start">

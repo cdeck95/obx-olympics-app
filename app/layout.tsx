@@ -6,6 +6,7 @@ import MenuHeader from "./components/menuheader";
 import SideMenu from "./components/sidemenu";
 import { Toaster } from "@/components/ui/toaster";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import TeamSelectionPopup from "./components/TeamSelectionPopup";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +36,7 @@ export default function RootLayout({
             <SideMenu />
             <div className="w-full">
               <MenuHeader />
+              <TeamSelectionPopup />
               <main className="flex flex-col min-h-screen w-full items-start justify-start p-6 gap-4">
                 {children}
               </main>

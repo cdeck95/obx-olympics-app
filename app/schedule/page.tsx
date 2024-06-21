@@ -10,20 +10,29 @@ import { useSchedules } from "../hooks/useSchedules";
 import useTeams from "../hooks/useTeams";
 import { Round } from "../interfaces/Round";
 import { Team } from "../interfaces/Team";
+import useTeam from "../hooks/useTeam";
 
 export default function Schedule() {
   const { schedule, loading, error } = useSchedules();
   const teamsData = useTeams();
   const [teams, setTeams] = useState<Team[]>([]);
-  const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
   const [rounds, setRounds] = useState<Round[]>([]);
+  const team = useTeam();
+  console.log(team);
+  const [selectedTeam, setSelectedTeam] = useState<string | null>(team || null);
 
   useEffect(() => {
     if (teamsData) {
       setTeams(teamsData.teams);
-      setSelectedTeam(teamsData.teams[0].name);
+      console.log("selected team", selectedTeam);
+      console.log("loaded team", team);
+      if (!team) {
+        setSelectedTeam(teamsData.teams[0].name);
+      } else {
+        setSelectedTeam(team);
+      }
     }
-  }, [teamsData]);
+  }, [teamsData, team]);
 
   useEffect(() => {
     if (schedule) {

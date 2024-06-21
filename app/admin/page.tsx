@@ -29,7 +29,7 @@ import {
 import { Input } from "@/components/ui/input";
 
 const AdminPage: React.FC = () => {
-  const { schedule, loading, error } = useSchedules();
+  const { schedule, groupStageActive, loading, error } = useSchedules();
   const stationsData = useStations();
   const [matches, setMatches] = useState<Match[]>([]);
 
@@ -261,6 +261,36 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  const [currentGroupStageActive, setCurrentGroupStageActive] =
+    useState<boolean>(groupStageActive);
+
+  useEffect(() => {
+    setCurrentGroupStageActive(groupStageActive);
+  }, [groupStageActive]);
+
+  const handleStartGroupStage = async () => {
+    try {
+      const response = await fetch("/api/saveGroupStageStatus", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          groupStageActive: true,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to start group stage");
+      }
+
+      setCurrentGroupStageActive(true);
+      alert("Group stage started successfully!");
+    } catch (error) {
+      console.error("An error occurred:", error);
+      alert("Failed to start group stage");
+    }
+  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -272,6 +302,14 @@ const AdminPage: React.FC = () => {
   return (
     <div className="grid grid-cols-1 w-full gap-4">
       <h1 className="text-xl mb-4">Admin Page</h1>
+      <div className="flex flex-col justify-center items-center gap-4 w-full">
+        <p>
+          Group stage is currently {groupStageActive ? "active" : "inactive"}
+        </p>
+        <Button onClick={handleStartGroupStage} disabled={groupStageActive}>
+          {groupStageActive ? "Group Stage Active" : "Start Group Stage"}
+        </Button>
+      </div>
       <DataTable columns={columns} data={matches} />
     </div>
   );
