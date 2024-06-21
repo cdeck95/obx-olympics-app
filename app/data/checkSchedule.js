@@ -1,7 +1,9 @@
 const fs = require("fs");
 
 // Read the JSON file
-const scheduleData = JSON.parse(fs.readFileSync("schedules.json", "utf8"));
+const scheduleData = JSON.parse(
+  fs.readFileSync("app/data/schedules.json", "utf8")
+);
 
 // Initialize an empty object to store the occurrences of stationId per team
 const teamStations = {};
