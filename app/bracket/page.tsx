@@ -109,7 +109,7 @@ const BracketDisplay: React.FC = () => {
   }, [standings]);
 
   return (
-    <div className="grid min-h-screen w-full text-center items-start">
+    <div className="grid grid-cols-1 min-h-screen w-full text-center items-start">
       <h1>Tournament Bracket</h1>
       {bracketData.length > 0 && <BracketTree mainBracket={bracketData} />}
       <button onClick={() => handleSaveData({ mainBracket: bracketData })}>

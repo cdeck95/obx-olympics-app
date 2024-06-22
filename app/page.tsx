@@ -21,12 +21,16 @@ import {
 import { TeamStanding } from "./interfaces/TeamStanding";
 import { useSchedules } from "./hooks/useSchedules";
 import useTeams from "./hooks/useTeams";
+import useTeam from "./hooks/useTeam";
+import { useTheme } from "next-themes";
 
 export default function Home() {
   const { schedule, loading, error } = useSchedules();
   const [standings, setStandings] = useState<TeamStanding[]>([]);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<any[]>([]);
+  const userTeam = useTeam();
+  const theme = useTheme();
 
   useEffect(() => {
     if (teamsData) {
@@ -72,8 +76,17 @@ export default function Home() {
                   const team = teams.find(
                     (team) => team.name === standing.team
                   );
+                  const isUserTeam = userTeam === standing.team;
+
                   return (
-                    <TableRow key={standing.team}>
+                    <TableRow
+                      key={standing.team}
+                      className={
+                        isUserTeam
+                          ? "bg-yellow-200 dark:bg-yellow-600 dark:text-gray-900"
+                          : ""
+                      }
+                    >
                       <TableCell>{standing.position}</TableCell>
                       <TableCell className="min-w-fit">
                         {team ? `${team.name} ${team.flag} ` : standing.team}
