@@ -37,7 +37,7 @@ export default function RootLayout({
             <div className="w-full">
               <MenuHeader />
               <TeamSelectionPopup />
-              <main className="flex flex-col min-h-screen w-full items-start justify-start p-6 gap-4">
+              <main className="flex flex-col min-h-screen w-full items-start justify-start p-4 lg:p-6 gap-4">
                 {children}
               </main>
             </div>

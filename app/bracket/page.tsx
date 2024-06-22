@@ -17,7 +17,7 @@ const BracketDisplay: React.FC = () => {
   // const [groupAStandings, setGroupAStandings] = useState<TeamStanding[]>([]);
   // const [groupBStandings, setGroupBStandings] = useState<TeamStanding[]>([]);
   const [bracketData, setBracketData] = useState<any[]>([]);
-  const { schedule, loading, error } = useSchedules();
+  const { scheduleMatches, scheduleRounds, loading, error } = useSchedules();
   const [standings, setStandings] = useState<TeamStanding[]>([]);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<any[]>([]);
@@ -29,17 +29,17 @@ const BracketDisplay: React.FC = () => {
   }, [teamsData]);
 
   useEffect(() => {
-    if (schedule) {
+    if (scheduleRounds) {
       try {
         const teamsList = teams.map((team) => team.name); // Extract team names from the teams data
-        const matches = schedule.flatMap((round: any) => round.matches);
+        const matches = scheduleRounds.flatMap((round: any) => round.matches);
         setStandings(calculateStandings(teamsList, matches));
         console.log("Standings:", standings);
       } catch (error) {
         console.error("Failed to calculate standings", error);
       }
     }
-  }, [schedule, teams]);
+  }, [scheduleRounds, teams]);
 
   const handleSaveData = async (data: any) => {
     try {

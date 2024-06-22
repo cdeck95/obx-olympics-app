@@ -30,9 +30,18 @@ export function DataTableToolbar<TData>({
   };
 
   const statusOptions = [
-    { value: "upcoming", label: "Upcoming" },
-    { value: "in-progress", label: "In Progress" },
-    { value: "completed", label: "Completed" },
+    { value: "Upcoming", label: "Upcoming" },
+    { value: "Live", label: "Live" },
+    { value: "Completed", label: "Completed" },
+  ];
+
+  const roundOptions = [
+    { value: "1", label: "Round 1" },
+    { value: "2", label: "Round 2" },
+    { value: "3", label: "Round 3" },
+    { value: "4", label: "Round 4" },
+    { value: "5", label: "Round 5" },
+    { value: "6", label: "Round 6" },
   ];
 
   return (
@@ -48,11 +57,18 @@ export function DataTableToolbar<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         /> */}
-        {table.getColumn("status") && (
+        {/* {table.getColumn("status") && (
           <DataTableFacetedFilter
             column={table.getColumn("status")}
             title="Status"
             options={statusOptions}
+          />
+        )} */}
+        {table.getColumn("roundNumber") && (
+          <DataTableFacetedFilter
+            column={table.getColumn("roundNumber")}
+            title="Round"
+            options={roundOptions}
           />
         )}
         {isFiltered && (

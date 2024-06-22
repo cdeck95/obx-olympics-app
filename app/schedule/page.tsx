@@ -23,21 +23,30 @@ import { format } from "path";
 import { DataTable } from "../admin/data-table";
 import RoundMatches from "../components/RoundMatches";
 import { Label } from "@/components/ui/label";
+import LiveLabel from "../components/LiveLabel";
+import EndedLabel from "../components/EndedLabel";
+import NotStartedLabel from "../components/NotStartedLabel";
 
 export default function Schedule() {
-  const { schedule, loading, error } = useSchedules();
+  const {
+    scheduleRounds,
+    scheduleMatches,
+    loading,
+    error,
+    groupStageActive,
+    groupStageOver,
+  } = useSchedules();
+  console.log("Schedule Rounds:", scheduleRounds);
+  console.log("Schedule Matches:", scheduleMatches);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<Team[]>([]);
-  const [rounds, setRounds] = useState<Round[]>([]);
   const team = useTeam();
-  console.log(team);
   const [selectedTeam, setSelectedTeam] = useState<string | null>(team || null);
+  const notStarted = !groupStageActive && !groupStageOver;
 
   useEffect(() => {
     if (teamsData) {
       setTeams(teamsData.teams);
-      console.log("selected team", selectedTeam);
-      console.log("loaded team", team);
       if (!team) {
         setSelectedTeam(teamsData.teams[0].name);
       } else {
@@ -46,21 +55,12 @@ export default function Schedule() {
     }
   }, [teamsData, team]);
 
-  useEffect(() => {
-    if (schedule) {
-      console.log(schedule);
-      setRounds(schedule);
-    }
-  }, [schedule]);
-
-  console.log("Rounds", rounds);
-
   return (
     <>
       {loading ? (
         <div className="grid grid-cols-1 w-full gap-4">Loading...</div>
       ) : (
-        <div className="grid grid-cols-1 w-full gap-4">
+        <div className="grid grid-cols-1 w-full gap-4 p-0">
           {/* <h1 className="text-2xl font-bold">Schedule</h1> */}
           <Tabs defaultValue="byTeam">
             <TabsList>
@@ -68,9 +68,17 @@ export default function Schedule() {
               <TabsTrigger value="byRound">By Round</TabsTrigger>
             </TabsList>
             <TabsContent value="byTeam">
-              <Card className="grid grid-cols-1 w-full h-full p-4">
-                <CardHeader className="grid grid-cols-1 p-4 unset">
-                  <CardTitle>Schedule by Team</CardTitle>
+              <Card className="grid grid-cols-1 w-full h-full p-2 lg:p-4">
+                <CardHeader className="flex flex-row justify-between items-center p-4 unset">
+                  <CardTitle className="text-md lg:text-lg">
+                    Schedule by Team
+                  </CardTitle>
+                  {groupStageActive ? (
+                    <LiveLabel />
+                  ) : groupStageOver ? (
+                    <EndedLabel />
+                  ) : null}
+                  {notStarted ? <NotStartedLabel /> : null}
                 </CardHeader>
                 <CardContent className="p-4 grid grid-cols-1 gap-8 w-full">
                   <TeamSelector
@@ -78,9 +86,9 @@ export default function Schedule() {
                     selectedTeam={selectedTeam!}
                     onSelect={setSelectedTeam}
                   />{" "}
-                  {selectedTeam && (
+                  {selectedTeam && scheduleMatches && (
                     <TeamMatches
-                      rounds={rounds}
+                      matches={scheduleMatches}
                       selectedTeam={selectedTeam}
                       teams={teams}
                     />
@@ -90,27 +98,27 @@ export default function Schedule() {
             </TabsContent>
             <TabsContent value="byRound">
               <Card className="grid grid-cols-1 w-full h-full p-4">
-                <CardHeader className="grid grid-cols-1 p-4 unset">
+                <CardHeader className="flex flex-row justify-between items-center p-4 unset">
                   <CardTitle>Schedule by Round</CardTitle>
+                  {groupStageActive ? (
+                    <LiveLabel />
+                  ) : groupStageOver ? (
+                    <EndedLabel />
+                  ) : null}
+                  {notStarted ? <NotStartedLabel /> : null}
                 </CardHeader>
-                <CardContent className="p-4 grid grid-cols-1 gap-8 w-full">
-                  {rounds.map((round) => (
-                    <div
-                      key={round.roundNumber}
-                      className="grid grid-cols-1 gap-4 w-full"
-                    >
-                      <Label className="text-xl">
-                        Round {round.roundNumber}
-                      </Label>
-
-                      <RoundMatches
-                        key={round.roundNumber}
-                        round={round}
-                        teams={teams}
-                      />
-                    </div>
-                  ))}
-                </CardContent>
+                {scheduleRounds && (
+                  <CardContent className="p-4 grid grid-cols-1 gap-8 w-full">
+                    {scheduleRounds.map((round, index) => {
+                      return (
+                        <div key={index}>
+                          <Label>Round {index}</Label>
+                          <RoundMatches matches={round.matches} teams={teams} />
+                        </div>
+                      );
+                    })}
+                  </CardContent>
+                )}
               </Card>
             </TabsContent>
           </Tabs>

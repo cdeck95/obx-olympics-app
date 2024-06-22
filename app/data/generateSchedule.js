@@ -57,7 +57,7 @@ const generateSchedule = (teams, stations) => {
           stationId: null,
           scoreTeam1: null,
           scoreTeam2: null,
-          status: "upcoming",
+          status: "Upcoming",
         });
         continue;
       }
@@ -87,7 +87,7 @@ const generateSchedule = (teams, stations) => {
         stationId: selectedStation.id,
         scoreTeam1: null,
         scoreTeam2: null,
-        status: "upcoming",
+        status: "Upcoming",
       });
 
       teamStationMap[team1.name].add(selectedStation.id);
@@ -134,6 +134,7 @@ const schedule = generateSchedule(
 const scheduleData = {
   schedule: schedule,
   groupStageActive: false, // Initialize groupStageActive flag
+  groupStageOver: false, // Initialize groupStageOver flag
 };
 
 fs.writeFileSync(

@@ -29,11 +29,22 @@ import {
 import { Input } from "@/components/ui/input";
 import { Description } from "@radix-ui/react-toast";
 import { toast } from "@/components/ui/use-toast";
+import { Round } from "../interfaces/Round";
 
 const AdminPage: React.FC = () => {
-  const { schedule, groupStageActive, loading, error } = useSchedules();
+  const {
+    scheduleRounds,
+    scheduleMatches,
+    groupStageActive,
+    groupStageOver,
+    loading,
+    error,
+    loadSchedules,
+  } = useSchedules();
+  console.log("Schedule Rounds:", scheduleRounds);
   const stationsData = useStations();
   const [matches, setMatches] = useState<Match[]>([]);
+  const [unsavedChanges, setUnsavedChanges] = useState<Set<number>>(new Set());
 
   const columns: ColumnDef<Match>[] = [
     {
@@ -56,13 +67,15 @@ const AdminPage: React.FC = () => {
         <DataTableColumnHeader column={column} title="Score 1" />
       ),
       cell: ({ row }) => {
-        const score = row.original.scoreTeam1;
         return (
           <Input
             type="number"
-            value={score ?? ""}
+            value={row.original.scoreTeam1 ?? ""}
             placeholder="Score"
-            onChange={(e) => (row.original.scoreTeam1 = Number(e.target.value))}
+            onChange={(e) => {
+              const newScore = Number(e.target.value);
+              handleScoreChange(row.original.id, "Team1", newScore);
+            }}
             className="w-full"
           />
         );
@@ -87,7 +100,10 @@ const AdminPage: React.FC = () => {
             type="number"
             value={score ?? ""}
             placeholder="Score"
-            onChange={(e) => (row.original.scoreTeam2 = Number(e.target.value))}
+            onChange={(e) => {
+              const newScore = Number(e.target.value);
+              handleScoreChange(row.original.id, "Team2", newScore);
+            }}
             className="w-full"
           />
         );
@@ -110,7 +126,16 @@ const AdminPage: React.FC = () => {
         return (
           <Select
             value={status}
-            onValueChange={(e) => (row.original.status = e)} //need to do like a set status method here
+            onValueChange={(e) => {
+              const newStatus = e;
+              setMatches((prevMatches) =>
+                prevMatches.map((match) =>
+                  match.id === row.original.id
+                    ? { ...match, status: newStatus }
+                    : match
+                )
+              );
+            }}
           >
             <SelectTrigger className="min-w-[130px]">
               <SelectValue placeholder="Select a Status" />
@@ -118,9 +143,9 @@ const AdminPage: React.FC = () => {
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Status Options</SelectLabel>
-                <SelectItem value="upcoming">Upcoming</SelectItem>
-                <SelectItem value="in-progress">In Progress</SelectItem>
-                <SelectItem value="completed">Completed</SelectItem>
+                <SelectItem value="Upcoming">Upcoming</SelectItem>
+                <SelectItem value="Live">Live</SelectItem>
+                <SelectItem value="Completed">Completed</SelectItem>
               </SelectGroup>
             </SelectContent>
           </Select>
@@ -133,11 +158,27 @@ const AdminPage: React.FC = () => {
         <DataTableColumnHeader column={column} title="Station" />
       ),
       cell: ({ row }) => {
-        const station = row.original.station?.id.toString();
+        const stationId = row.original.station?.id.toString();
         return (
           <Select
-            value={station}
-            onValueChange={(e) => (row.original.stationId = Number(e))} //need to do like a set status method here
+            value={stationId}
+            onValueChange={(e) => {
+              const newStation = stationsData.stationsData!.stations.find(
+                (station) => station.id === Number(e)
+              );
+              if (newStation) {
+                setMatches((prevMatches) =>
+                  prevMatches.map((match) =>
+                    match.id === row.original.id
+                      ? {
+                          ...match,
+                          station: newStation,
+                        }
+                      : match
+                  )
+                );
+              }
+            }}
           >
             <SelectTrigger className="min-w-[130px]">
               <SelectValue placeholder="Select a Station" />
@@ -160,87 +201,55 @@ const AdminPage: React.FC = () => {
       id: "actions",
       cell: ({ row }) => {
         const match = row.original;
+        const hasUnsavedChanges = unsavedChanges.has(match.id);
 
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem onClick={() => handleEditMatch(match)}>
-                <div className="flex flex-row gap-2 justify-center items-center">
-                  <Pencil className="w-4 h-4" /> Edit Match
-                </div>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              {/* <DropdownMenuItem onClick={() => handleDeleteMatch(match)}>
-                <div className="flex flex-row gap-2 justify-center items-center">
-                  <X className="w-4 h-4" /> Delete Match
-                </div>
-              </DropdownMenuItem> */}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          hasUnsavedChanges && (
+            <Button onClick={() => handleSaveMatch(match)}>Save</Button>
+          )
         );
       },
     },
   ];
 
-  const handleEditMatch = (match: Match) => {
-    // Handle match edit logic here
-  };
-
-  const handleDeleteMatch = (match: Match) => {
-    // Handle match delete logic here
-  };
-
-  useEffect(() => {
-    if (schedule) {
-      const allMatches = schedule.flatMap((round) => round.matches);
-      setMatches(allMatches);
-    }
-  }, [schedule]);
-
   const handleScoreChange = (
     matchId: number,
-    team: "team1" | "team2",
+    team: "Team1" | "Team2",
     score: number
   ) => {
     setMatches((prevMatches) =>
-      prevMatches.map((match) =>
-        match.id === matchId ? { ...match, [`score${team}`]: score } : match
-      )
+      prevMatches.map((match) => {
+        if (match.id === matchId) {
+          const updatedMatch = {
+            ...match,
+            status: "Completed",
+          };
+
+          if (team === "Team1") {
+            updatedMatch.scoreTeam1 = score;
+            updatedMatch.scoreTeam2 = score === 1 ? 0 : 1;
+            updatedMatch.isWinnerTeam1 = score === 1;
+            updatedMatch.isWinnerTeam2 = score === 0;
+          } else {
+            updatedMatch.scoreTeam2 = score;
+            updatedMatch.scoreTeam1 = score === 1 ? 0 : 1;
+            updatedMatch.isWinnerTeam1 = score === 0;
+            updatedMatch.isWinnerTeam2 = score === 1;
+          }
+
+          return updatedMatch;
+        }
+        return match;
+      })
     );
+    setUnsavedChanges((prev) => {
+      const newSet = new Set(prev);
+      newSet.add(matchId);
+      return newSet;
+    });
   };
 
-  const handleStatusChange = (matchId: number, status: string) => {
-    setMatches((prevMatches) =>
-      prevMatches.map((match) =>
-        match.id === matchId ? { ...match, status } : match
-      )
-    );
-  };
-
-  const handleStationChange = (matchId: number, stationId: number) => {
-    setMatches((prevMatches) =>
-      prevMatches.map((match) =>
-        match.id === matchId
-          ? {
-              ...match,
-              stationId,
-              station: stationsData.stationsData!.stations.find(
-                (station) => station.id === stationId
-              ),
-            }
-          : match
-      )
-    );
-  };
-
-  const handleSave = async () => {
+  const handleSaveMatch = async (match: Match) => {
     try {
       const response = await fetch("/api/saveSchedules", {
         method: "POST",
@@ -248,7 +257,13 @@ const AdminPage: React.FC = () => {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          schedule: schedule, // Send the unified schedule
+          schedule: matches,
+          // schedule: matches.map((match) => ({
+          //   ...match,
+          //   station: match.station!.id, // Ensure station is an ID, not the full object
+          // })),
+          groupStageActive: groupStageActive,
+          groupStageOver: groupStageOver,
         }),
       });
 
@@ -256,19 +271,59 @@ const AdminPage: React.FC = () => {
         throw new Error("Failed to save schedules");
       }
 
-      alert("Schedules saved successfully!");
+      setUnsavedChanges(new Set()); // Clear unsaved changes after successful save
+      toast({
+        title: "Success",
+        description: "Match saved successfully",
+        variant: "default",
+        duration: 3000,
+      });
+      loadSchedules();
     } catch (error) {
       console.error("An error occurred:", error);
-      alert("Failed to save schedules");
+      toast({
+        title: "Error",
+        description: "Failed to save match",
+        variant: "destructive",
+        duration: 3000,
+      });
     }
   };
 
-  const [currentGroupStageActive, setCurrentGroupStageActive] =
-    useState<boolean>(groupStageActive);
-
   useEffect(() => {
-    setCurrentGroupStageActive(groupStageActive);
-  }, [groupStageActive]);
+    if (scheduleMatches) {
+      // Assuming schedule is an array of matches directly
+      const allMatches = scheduleMatches
+        .map((match) => ({
+          ...match,
+          roundNumber: match.roundNumber,
+        }))
+        .filter((match) => match.team1 !== "BYE" && match.team2 !== "BYE");
+
+      setMatches(allMatches);
+      const hasLiveOrCompletedMatches = allMatches.some(
+        (match) => match.status === "Live" || match.status === "Completed"
+      );
+
+      console.log("Has live or completed matches:", hasLiveOrCompletedMatches);
+
+      if (hasLiveOrCompletedMatches && !groupStageOver && !groupStageActive) {
+        console.log("Group stage is in progress");
+        handleStartGroupStage();
+      }
+
+      if (groupStageOver) {
+        console.log("Group stage is over");
+      }
+    }
+  }, [scheduleMatches, groupStageOver, groupStageActive]);
+
+  // const [currentGroupStageActive, setCurrentGroupStageActive] =
+  //   useState<boolean>(groupStageActive);
+
+  // useEffect(() => {
+  //   setCurrentGroupStageActive(groupStageActive);
+  // }, [groupStageActive]);
 
   const handleStartGroupStage = async () => {
     try {
@@ -292,13 +347,14 @@ const AdminPage: React.FC = () => {
         throw new Error("Failed to start group stage");
       }
 
-      setCurrentGroupStageActive(true);
+      // setCurrentGroupStageActive(true);
       toast({
         title: "Success",
         description: "Group stage started successfully",
         variant: "default",
         duration: 3000,
       });
+      loadSchedules(); // Re-fetch the schedule after starting the group stage
     } catch (error) {
       console.error("An error occurred:", error);
       toast({
@@ -309,6 +365,49 @@ const AdminPage: React.FC = () => {
       });
     }
   };
+
+  const handleEndGroupStage = async () => {
+    try {
+      const response = await fetch("/api/saveGroupStageStatus", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          groupStageActive: false,
+          groupStageOver: true,
+        }),
+      });
+
+      if (!response.ok) {
+        toast({
+          title: "Error",
+          description: "Failed to end group stage",
+          variant: "destructive",
+          duration: 3000,
+        });
+        throw new Error("Failed to end group stage");
+      }
+
+      // setCurrentGroupStageActive(false);
+      toast({
+        title: "Success",
+        description: "Group stage ended successfully",
+        variant: "default",
+        duration: 3000,
+      });
+      loadSchedules(); // Re-fetch the schedule after starting the group stage
+    } catch (error) {
+      console.error("An error occurred:", error);
+      toast({
+        title: "Error",
+        description: "Failed to end group stage",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -321,12 +420,17 @@ const AdminPage: React.FC = () => {
     <div className="grid grid-cols-1 w-full gap-4">
       <h1 className="text-xl mb-4">Admin Page</h1>
       <div className="flex flex-col justify-center items-center gap-4 w-full">
-        <p>
-          Group stage is currently {groupStageActive ? "active" : "inactive"}
-        </p>
-        <Button onClick={handleStartGroupStage} disabled={groupStageActive}>
-          {groupStageActive ? "Group Stage Active" : "Start Group Stage"}
+        {!groupStageOver && (
+          <Button onClick={handleStartGroupStage} disabled={groupStageActive}>
+            {groupStageActive ? "Group Stage Active" : "Start Group Stage"}
+          </Button>
+        )}
+        <Button onClick={handleEndGroupStage} disabled={!groupStageActive}>
+          {groupStageActive ? "End Group Stage" : "Group Stage Ended"}
         </Button>
+        {/* {groupStageOver &&  <Button onClick={handleStartBracketPlay} disabled={!bracketPlayActive}>
+          {bracketActive ? "End Bracket Play" : "Start Bracket Play"}
+        </Button>} */}
       </div>
       <DataTable columns={columns} data={matches} />
     </div>

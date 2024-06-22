@@ -15,37 +15,60 @@ import { Badge } from "@/components/ui/badge";
 import { Team } from "../interfaces/Team";
 
 interface TeamMatchesProps {
-  rounds: Round[];
+  matches: Match[];
   selectedTeam: string;
   teams: Team[];
 }
 
 const TeamMatches: React.FC<TeamMatchesProps> = ({
-  rounds,
+  matches,
   selectedTeam,
   teams,
 }) => {
-  // Filter rounds to find matches that include the selected team
-  const filteredMatches = rounds.map((round) => {
-    const match = round.matches.find(
-      (match) => match.team1 === selectedTeam || match.team2 === selectedTeam
+  let id = 350;
+  console.log("Matches:", matches);
+
+  // Get the unique round numbers
+  const roundNumbers = Array.from(
+    new Set(matches.map((match) => match.roundNumber))
+  );
+
+  // Ensure the selected team is always team1 and include BYE matches
+  const filteredMatches = roundNumbers.map((roundNumber) => {
+    const match = matches.find(
+      (match) =>
+        (match.roundNumber === roundNumber && match.team1 === selectedTeam) ||
+        (match.roundNumber === roundNumber && match.team2 === selectedTeam)
     );
+
     if (match) {
-      return {
-        ...match,
-        roundNumber: round.roundNumber, // Append round number to each match
-      };
+      if (match.team2 === selectedTeam) {
+        // Swap team1 and team2 if the selected team is team2
+        return {
+          ...match,
+          team1: match.team2,
+          team2: match.team1,
+          scoreTeam1: match.scoreTeam2,
+          scoreTeam2: match.scoreTeam1,
+          isWinnerTeam1: match.isWinnerTeam2,
+          isWinnerTeam2: match.isWinnerTeam1,
+        };
+      }
+      return match;
     } else {
+      // Add a BYE match if no match is found for the selected team in this round
       return {
-        id: round.roundNumber, // Assign a numeric id
-        roundNumber: round.roundNumber,
+        id: id++,
+        roundNumber,
         team1: "BYE",
         team2: selectedTeam,
-        stationId: -1,
+        station: null,
         scoreTeam1: null,
         scoreTeam2: null,
-        status: "upcoming",
-      } as Match & { roundNumber: number };
+        status: "Upcoming",
+        isWinnerTeam1: null,
+        isWinnerTeam2: null,
+      } as Match;
     }
   });
 
@@ -95,12 +118,12 @@ const TeamMatches: React.FC<TeamMatchesProps> = ({
                         {team2?.flag} {match.scoreTeam2 ?? "TBD"}
                       </Label>
                     </div>
-                    <div className="flex flex-row gap-1 items-center justify-start">
+                    <div className="flex flex-row w-full gap-1 items-center justify-between">
                       <Badge
                         variant={
-                          match.status === "upcoming"
+                          match.status === "Upcoming"
                             ? "default"
-                            : match.status === "in-progress"
+                            : match.status === "Live"
                             ? "destructive"
                             : "secondary"
                         }
@@ -108,6 +131,12 @@ const TeamMatches: React.FC<TeamMatchesProps> = ({
                       >
                         {match.status}
                       </Badge>
+                      {match.status === "Completed" && match.isWinnerTeam1 && (
+                        <Badge className="bg-green-600 text-white">W</Badge>
+                      )}
+                      {match.status === "Completed" && match.isWinnerTeam2 && (
+                        <Badge variant="destructive">L</Badge>
+                      )}
                     </div>
                   </>
                 )}

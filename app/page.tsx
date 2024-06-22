@@ -29,8 +29,14 @@ import { Label } from "@/components/ui/label";
 import NotStartedLabel from "./components/NotStartedLabel";
 
 export default function Home() {
-  const { schedule, groupStageActive, groupStageOver, loading, error } =
-    useSchedules();
+  const {
+    scheduleRounds,
+    scheduleMatches,
+    groupStageActive,
+    groupStageOver,
+    loading,
+    error,
+  } = useSchedules();
   const [standings, setStandings] = useState<TeamStanding[]>([]);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<any[]>([]);
@@ -45,16 +51,18 @@ export default function Home() {
   }, [teamsData]);
 
   useEffect(() => {
-    if (schedule) {
+    if (scheduleRounds) {
       try {
         const teamsList = teams.map((team) => team.name); // Extract team names from the teams data
-        const matches = schedule.flatMap((round: any) => round.matches);
-        setStandings(calculateStandings(teamsList, matches));
+        const matches = scheduleRounds.flatMap((round: any) => round.matches);
+        const standings = calculateStandings(teamsList, matches);
+        console.log("Standings", standings);
+        setStandings(standings);
       } catch (error) {
         console.error("Failed to calculate standings", error);
       }
     }
-  }, [schedule, teams]);
+  }, [scheduleRounds, teams]);
 
   return (
     <div className="grid grid-cols-1 w-full items-start justify-start gap-4">
@@ -93,11 +101,7 @@ export default function Home() {
                   return (
                     <TableRow
                       key={standing.team}
-                      className={
-                        isUserTeam
-                          ? "bg-yellow-200 dark:bg-yellow-600 dark:text-gray-900"
-                          : ""
-                      }
+                      className={isUserTeam ? "border-2 border-yellow-400" : ""}
                     >
                       <TableCell>{standing.position}</TableCell>
                       <TableCell className="min-w-fit">

@@ -1,268 +1,345 @@
 {
   "schedule": [
     {
+      "id": 1,
+      "team1": "Ireland",
+      "team2": "Germany",
+      "stationId": 5,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 5,
+        "name": "Can Jam",
+        "hasMultipleBoards": true
+      },
       "roundNumber": 1,
-      "matches": [
-        {
-          "id": 4,
-          "team1": "Ireland",
-          "team2": "Germany",
-          "stationId": 5,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 6,
-          "team1": "Canada",
-          "team2": "France",
-          "stationId": 2,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 8,
-          "team1": "Italy",
-          "team2": "Greece",
-          "stationId": 6,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 10,
-          "team1": "USA",
-          "team2": "Mexico",
-          "stationId": 6,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 12,
-          "team1": "Australia",
-          "team2": "BYE",
-          "stationId": null,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        }
-      ]
+      "scoreteam1": 21,
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
     },
     {
+      "id": 2,
+      "team1": "Canada",
+      "team2": "France",
+      "stationId": 2,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 2,
+        "name": "Pong",
+        "hasMultipleBoards": false
+      },
+      "roundNumber": 1,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
+    },
+    {
+      "id": 3,
+      "team1": "Italy",
+      "team2": "Greece",
+      "stationId": 6,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 6,
+        "name": "Tic Tac Toe Flip Cup",
+        "hasMultipleBoards": false
+      },
+      "roundNumber": 1,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
+    },
+    {
+      "id": 4,
+      "team1": "USA",
+      "team2": "Mexico",
+      "stationId": 6,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 6,
+        "name": "Tic Tac Toe Flip Cup",
+        "hasMultipleBoards": false
+      },
+      "roundNumber": 1,
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
+    },
+    {
+      "id": 6,
+      "team1": "Italy",
+      "team2": "Mexico",
+      "stationId": 2,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 2,
+        "name": "Pong",
+        "hasMultipleBoards": false
+      },
       "roundNumber": 2,
-      "matches": [
-        {
-          "id": 8,
-          "team1": "Italy",
-          "team2": "Mexico",
-          "stationId": 2,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 10,
-          "team1": "Greece",
-          "team2": "Ireland",
-          "stationId": 4,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 12,
-          "team1": "Australia",
-          "team2": "Canada",
-          "stationId": 5,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 14,
-          "team1": "Germany",
-          "team2": "France",
-          "stationId": 6,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 16,
-          "team1": "USA",
-          "team2": "BYE",
-          "stationId": null,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        }
-      ]
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
     },
     {
+      "id": 7,
+      "team1": "Greece",
+      "team2": "Ireland",
+      "stationId": 4,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 4,
+        "name": "Flip Cup",
+        "hasMultipleBoards": false
+      },
+      "roundNumber": 2,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
+    },
+    {
+      "id": 8,
+      "team1": "Australia",
+      "team2": "Canada",
+      "stationId": 5,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 5,
+        "name": "Can Jam",
+        "hasMultipleBoards": true
+      },
+      "roundNumber": 2,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
+    },
+    {
+      "id": 9,
+      "team1": "Germany",
+      "team2": "France",
+      "stationId": 6,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 6,
+        "name": "Tic Tac Toe Flip Cup",
+        "hasMultipleBoards": false
+      },
+      "roundNumber": 2,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
+    },
+    {
+      "id": 11,
+      "team1": "USA",
+      "team2": "Germany",
+      "stationId": 3,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 3,
+        "name": "Cornhole",
+        "hasMultipleBoards": true
+      },
       "roundNumber": 3,
-      "matches": [
-        {
-          "id": 16,
-          "team1": "USA",
-          "team2": "Germany",
-          "stationId": 3,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 18,
-          "team1": "Australia",
-          "team2": "Greece",
-          "stationId": 3,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 20,
-          "team1": "Ireland",
-          "team2": "BYE",
-          "stationId": null,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        }
-      ]
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
     },
     {
+      "id": 12,
+      "team1": "Australia",
+      "team2": "Greece",
+      "stationId": 3,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 3,
+        "name": "Cornhole",
+        "hasMultipleBoards": true
+      },
+      "roundNumber": 3,
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
+    },
+    {
+      "id": 14,
+      "team1": "Mexico",
+      "team2": "Germany",
+      "stationId": 1,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 1,
+        "name": "Polish Horseshoes",
+        "hasMultipleBoards": true
+      },
       "roundNumber": 4,
-      "matches": [
-        {
-          "id": 16,
-          "team1": "Mexico",
-          "team2": "Germany",
-          "stationId": 1,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 18,
-          "team1": "Ireland",
-          "team2": "Australia",
-          "stationId": 2,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 20,
-          "team1": "Greece",
-          "team2": "Canada",
-          "stationId": 1,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 22,
-          "team1": "Italy",
-          "team2": "USA",
-          "stationId": 5,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 24,
-          "team1": "France",
-          "team2": "BYE",
-          "stationId": null,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        }
-      ]
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
     },
     {
+      "id": 15,
+      "team1": "Ireland",
+      "team2": "Australia",
+      "stationId": 2,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 2,
+        "name": "Pong",
+        "hasMultipleBoards": false
+      },
+      "roundNumber": 4,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
+    },
+    {
+      "id": 16,
+      "team1": "Greece",
+      "team2": "Canada",
+      "stationId": 1,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 1,
+        "name": "Polish Horseshoes",
+        "hasMultipleBoards": true
+      },
+      "roundNumber": 4,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
+    },
+    {
+      "id": 17,
+      "team1": "Italy",
+      "team2": "USA",
+      "stationId": 5,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 5,
+        "name": "Can Jam",
+        "hasMultipleBoards": true
+      },
+      "roundNumber": 4,
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
+    },
+    {
+      "id": 19,
+      "team1": "Canada",
+      "team2": "Germany",
+      "stationId": 4,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 4,
+        "name": "Flip Cup",
+        "hasMultipleBoards": false
+      },
       "roundNumber": 5,
-      "matches": [
-        {
-          "id": 20,
-          "team1": "Canada",
-          "team2": "Germany",
-          "stationId": 4,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 22,
-          "team1": "Mexico",
-          "team2": "Ireland",
-          "stationId": 3,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 24,
-          "team1": "Australia",
-          "team2": "France",
-          "stationId": 1,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 28,
-          "team1": "USA",
-          "team2": "BYE",
-          "stationId": null,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        }
-      ]
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
     },
     {
+      "id": 20,
+      "team1": "Mexico",
+      "team2": "Ireland",
+      "stationId": 3,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 3,
+        "name": "Cornhole",
+        "hasMultipleBoards": true
+      },
+      "roundNumber": 5,
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
+    },
+    {
+      "id": 21,
+      "team1": "Australia",
+      "team2": "France",
+      "stationId": 1,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 1,
+        "name": "Polish Horseshoes",
+        "hasMultipleBoards": true
+      },
+      "roundNumber": 5,
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
+    },
+    {
+      "id": 23,
+      "team1": "Ireland",
+      "team2": "Italy",
+      "stationId": 1,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
+      "status": "Completed",
+      "station": {
+        "id": 1,
+        "name": "Polish Horseshoes",
+        "hasMultipleBoards": true
+      },
       "roundNumber": 6,
-      "matches": [
-        {
-          "id": 24,
-          "team1": "Ireland",
-          "team2": "Italy",
-          "stationId": 1,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 26,
-          "team1": "Mexico",
-          "team2": "Australia",
-          "stationId": 4,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 28,
-          "team1": "France",
-          "team2": "USA",
-          "stationId": 4,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        },
-        {
-          "id": 32,
-          "team1": "Canada",
-          "team2": "BYE",
-          "stationId": null,
-          "scoreTeam1": null,
-          "scoreTeam2": null,
-          "status": "upcoming"
-        }
-      ]
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
+    },
+    {
+      "id": 24,
+      "team1": "Mexico",
+      "team2": "Australia",
+      "stationId": 4,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 4,
+        "name": "Flip Cup",
+        "hasMultipleBoards": false
+      },
+      "roundNumber": 6,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
+    },
+    {
+      "id": 25,
+      "team1": "France",
+      "team2": "USA",
+      "stationId": 4,
+      "scoreTeam1": 1,
+      "scoreTeam2": 0,
+      "status": "Completed",
+      "station": {
+        "id": 4,
+        "name": "Flip Cup",
+        "hasMultipleBoards": false
+      },
+      "roundNumber": 6,
+      "isWinnerTeam1": true,
+      "isWinnerTeam2": false
     }
   ],
   "groupStageActive": false,
