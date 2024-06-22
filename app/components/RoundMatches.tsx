@@ -9,80 +9,20 @@ import {
 } from "@/components/ui/card";
 import { Match } from "../interfaces/Match";
 import { Label } from "@/components/ui/label";
-import { Round } from "../interfaces/Round";
 import { ClipboardPenLine, MapPin } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Team } from "../interfaces/Team";
+import { Round } from "../interfaces/Round";
 
-interface TeamMatchesProps {
+interface RoundMatchesProps {
   matches: Match[];
-  selectedTeam: string;
   teams: Team[];
 }
 
-const TeamMatches: React.FC<TeamMatchesProps> = ({
-  matches,
-  selectedTeam,
-  teams,
-}) => {
-  let id = 350;
-  console.log("Matches:", matches);
-
-  // Get the unique round numbers
-  const roundNumbers = Array.from(
-    new Set(matches.map((match) => match.roundNumber))
-  );
-
-  // Ensure the selected team is always team1 and include BYE matches
-  const filteredMatches = roundNumbers.map((roundNumber) => {
-    const match = matches.find(
-      (match) =>
-        (match.roundNumber === roundNumber && match.team1 === selectedTeam) ||
-        (match.roundNumber === roundNumber && match.team2 === selectedTeam)
-    );
-
-    if (match) {
-      if (match.team2 === selectedTeam) {
-        // Swap team1 and team2 if the selected team is team2
-        return {
-          ...match,
-          team1: match.team2,
-          team2: match.team1,
-          scoreTeam1: match.scoreTeam2,
-          scoreTeam2: match.scoreTeam1,
-          isWinnerTeam1: match.isWinnerTeam2,
-          isWinnerTeam2: match.isWinnerTeam1,
-        };
-      }
-      return match;
-    } else {
-      // Add a BYE match if no match is found for the selected team in this round
-      return {
-        id: id++,
-        roundNumber,
-        team1: "BYE",
-        team2: selectedTeam,
-        station: null,
-        scoreTeam1: null,
-        scoreTeam2: null,
-        status: "Upcoming",
-        isWinnerTeam1: null,
-        isWinnerTeam2: null,
-      } as Match;
-    }
-  });
-
-  if (!selectedTeam) {
-    return (
-      <div className="text-center text-gray-500">
-        Select a team to view the schedule.
-      </div>
-    );
-  }
-
+const RoundMatches: React.FC<RoundMatchesProps> = ({ matches, teams }) => {
   return (
     <div className="h-full w-full grid grid-col-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {filteredMatches.map((match, index) => {
+      {matches.map((match, index) => {
         const team1 = teams.find((team) => team.name === match.team1);
         const team2 = teams.find((team) => team.name === match.team2);
 
@@ -114,8 +54,36 @@ const TeamMatches: React.FC<TeamMatchesProps> = ({
                     <div className="flex flex-row gap-1 items-center justify-start">
                       <ClipboardPenLine className="h-4 w-4" />
                       <Label className="text-xs">
-                        Score: {team1?.flag} {match.scoreTeam1 ?? "TBD"} -{" "}
-                        {team2?.flag} {match.scoreTeam2 ?? "TBD"}
+                        Score: {team1?.flag}{" "}
+                        <span
+                          className={
+                            match.scoreTeam1 !== null &&
+                            match.scoreTeam2 !== null
+                              ? match.scoreTeam1 > match.scoreTeam2
+                                ? "text-green-500"
+                                : match.scoreTeam1 < match.scoreTeam2
+                                ? "text-red-500"
+                                : ""
+                              : ""
+                          }
+                        >
+                          {match.scoreTeam1 ?? "TBD"}
+                        </span>{" "}
+                        - {team2?.flag}{" "}
+                        <span
+                          className={
+                            match.scoreTeam1 !== null &&
+                            match.scoreTeam2 !== null
+                              ? match.scoreTeam2 > match.scoreTeam1
+                                ? "text-green-500"
+                                : match.scoreTeam2 < match.scoreTeam1
+                                ? "text-red-500"
+                                : ""
+                              : ""
+                          }
+                        >
+                          {match.scoreTeam2 ?? "TBD"}
+                        </span>
                       </Label>
                     </div>
                     <div className="flex flex-row w-full gap-1 items-center justify-between">
@@ -131,20 +99,20 @@ const TeamMatches: React.FC<TeamMatchesProps> = ({
                       >
                         {match.status}
                       </Badge>
-                      {match.status === "Completed" && match.isWinnerTeam1 && (
-                        <Badge className="bg-green-600 text-white">W</Badge>
-                      )}
-                      {match.status === "Completed" && match.isWinnerTeam2 && (
-                        <Badge variant="destructive">L</Badge>
+                      {match.status === "Completed" && (
+                        <Badge className="bg-green-800 text-white">
+                          Winner:{" "}
+                          {match.isWinnerTeam1 ? team1?.name : team2?.name}
+                        </Badge>
                       )}
                     </div>
                   </>
                 )}
-                {(match.team1 === "BYE" || match.team2 === "BYE") && (
+                {/* {(match.team1 === "BYE" || match.team2 === "BYE") && (
                   <Label className="text-xs text-gray-500">
                     {selectedTeam} has a bye this round.
                   </Label>
-                )}
+                )} */}
               </div>
             </CardFooter>
           </Card>
@@ -154,4 +122,4 @@ const TeamMatches: React.FC<TeamMatchesProps> = ({
   );
 };
 
-export default TeamMatches;
+export default RoundMatches;

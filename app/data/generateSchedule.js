@@ -14,6 +14,8 @@ const stations = JSON.parse(
 // Ensure each team plays 4 or 5 games
 const minGamesPerTeam = 4;
 const maxGamesPerTeam = 5;
+const roundsPerTeam = 5;
+const matchesPerRound = 4;
 
 // Helper function to shuffle an array
 const shuffleArray = (array) => {
@@ -23,8 +25,10 @@ const shuffleArray = (array) => {
   }
 };
 
+const createMatchupKey = (team1, team2) => `${team1}-${team2}`;
+
 // Generate the schedule
-const generateSchedule = (teams, stations, minGames, maxGames) => {
+const generateSchedule = (teams, stations) => {
   const rounds = [];
   const teamStationMap = {};
   const teamGamesCount = {};
@@ -32,51 +36,66 @@ const generateSchedule = (teams, stations, minGames, maxGames) => {
 
   // Initialize teamStationMap and teamGamesCount
   teams.forEach((team) => {
-    teamStationMap[team.name] = {};
+    teamStationMap[team.name] = new Set();
     teamGamesCount[team.name] = 0;
-    stations.forEach((station) => {
-      teamStationMap[team.name][station.id] = 0;
-    });
   });
 
   let roundNumber = 1;
-
   while (true) {
     const matches = [];
     shuffleArray(teams);
-    shuffleArray(stations);
 
-    for (let i = 0; i < teams.length - 1; i += 2) {
-      const team1 = teams[i].name;
-      const team2 = teams[i + 1].name;
-      const station = stations[i % stations.length];
+    for (let i = 0; i < teams.length; i += 2) {
+      const team1 = teams[i];
+      const team2 = teams[i + 1];
 
-      const matchupKey = `${team1}-${team2}`;
-
-      // Ensure no team plays at the same station more than once, no team plays the same opponent more than once, and each team plays 4 or 5 games
-      if (
-        !matchups.has(matchupKey) &&
-        teamStationMap[team1][station.id] < 1 &&
-        teamStationMap[team2][station.id] < 1 &&
-        teamGamesCount[team1] < maxGames &&
-        teamGamesCount[team2] < maxGames
-      ) {
+      if (team2 === undefined) {
         matches.push({
-          id: (rounds.length * teams.length) / 2 + i / 2 + 1,
-          team1,
-          team2,
-          stationId: station.id,
+          id: roundNumber * matchesPerRound + i,
+          team1: team1.name,
+          team2: "BYE",
+          stationId: null,
           scoreTeam1: null,
           scoreTeam2: null,
-          status: "upcoming",
+          status: "Upcoming",
         });
-        teamStationMap[team1][station.id]++;
-        teamStationMap[team2][station.id]++;
-        teamGamesCount[team1]++;
-        teamGamesCount[team2]++;
-        matchups.add(matchupKey);
-        matchups.add(`${team2}-${team1}`); // Ensure the reverse matchup is also added
+        continue;
       }
+
+      const availableStations = stations.filter(
+        (station) =>
+          !teamStationMap[team1.name].has(station.id) &&
+          !teamStationMap[team2.name].has(station.id)
+      );
+
+      if (
+        availableStations.length === 0 ||
+        teamGamesCount[team1.name] >= maxGamesPerTeam ||
+        teamGamesCount[team2.name] >= maxGamesPerTeam ||
+        matchups.has(createMatchupKey(team1.name, team2.name))
+      ) {
+        continue;
+      }
+
+      shuffleArray(availableStations);
+      const selectedStation = availableStations[0];
+
+      matches.push({
+        id: roundNumber * matchesPerRound + i,
+        team1: team1.name,
+        team2: team2.name,
+        stationId: selectedStation.id,
+        scoreTeam1: null,
+        scoreTeam2: null,
+        status: "Upcoming",
+      });
+
+      teamStationMap[team1.name].add(selectedStation.id);
+      teamStationMap[team2.name].add(selectedStation.id);
+      teamGamesCount[team1.name]++;
+      teamGamesCount[team2.name]++;
+      matchups.add(createMatchupKey(team1.name, team2.name));
+      matchups.add(createMatchupKey(team2.name, team1.name));
     }
 
     if (matches.length > 0) {
@@ -88,14 +107,14 @@ const generateSchedule = (teams, stations, minGames, maxGames) => {
     }
 
     // Check if all teams have played at least the minimum required games
-    if (teams.every((team) => teamGamesCount[team.name] >= minGames)) {
+    if (teams.every((team) => teamGamesCount[team.name] >= minGamesPerTeam)) {
       break;
     }
   }
 
   // Check if any team has fewer games than the minimum required and log an error if so
   teams.forEach((team) => {
-    if (teamGamesCount[team.name] < minGames) {
+    if (teamGamesCount[team.name] < minGamesPerTeam) {
       console.error(
         `Team ${team.name} has only ${teamGamesCount[team.name]} games.`
       );
@@ -115,6 +134,7 @@ const schedule = generateSchedule(
 const scheduleData = {
   schedule: schedule,
   groupStageActive: false, // Initialize groupStageActive flag
+  groupStageOver: false, // Initialize groupStageOver flag
 };
 
 fs.writeFileSync(

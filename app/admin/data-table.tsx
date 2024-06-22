@@ -62,6 +62,7 @@ export const DataTable: React.FC<DataTableProps> = ({
       columnFilters,
     },
     enableRowSelection: false,
+    autoResetPageIndex: false,
     onRowSelectionChange: setRowSelection,
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
@@ -71,6 +72,8 @@ export const DataTable: React.FC<DataTableProps> = ({
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
   });
+
+  console.log(data);
 
   return (
     <div className="space-y-4">
