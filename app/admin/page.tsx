@@ -43,6 +43,7 @@ const AdminPage: React.FC = () => {
     scheduleMatches,
     groupStageActive,
     groupStageOver,
+    bracketPlayLive,
     loading,
     error,
     loadSchedules,
@@ -255,7 +256,8 @@ const AdminPage: React.FC = () => {
         },
         body: JSON.stringify({
           bracketMatches: newBracketMatches,
-          bracketLive: true,
+          bracketPlayLive: true,
+          bracketPlayOver: false,
         }),
       });
 
@@ -481,6 +483,12 @@ const AdminPage: React.FC = () => {
       });
     }
   };
+
+  useEffect(() => {
+    if (bracketPlayLive) {
+      setBracketLive(true);
+    }
+  }, [bracketPlayLive]);
 
   if (loading) {
     return <div>Loading...</div>;

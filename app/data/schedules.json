@@ -23,8 +23,8 @@
       "team1": "Canada",
       "team2": "France",
       "stationId": 2,
-      "scoreTeam1": 1,
-      "scoreTeam2": 0,
+      "scoreTeam1": 0,
+      "scoreTeam2": 1,
       "status": "Completed",
       "station": {
         "id": 2,
@@ -32,8 +32,8 @@
         "hasMultipleBoards": false
       },
       "roundNumber": 1,
-      "isWinnerTeam1": true,
-      "isWinnerTeam2": false
+      "isWinnerTeam1": false,
+      "isWinnerTeam2": true
     },
     {
       "id": 3,
@@ -343,5 +343,201 @@
     }
   ],
   "groupStageActive": false,
-  "groupStageOver": true
+  "groupStageOver": true,
+  "bracketMatches": [
+    {
+      "id": "playin",
+      "name": "Play-in Match",
+      "nextMatchId": "quarter1",
+      "tournamentRoundText": "Play-in",
+      "startTime": "Flip Cup",
+      "state": "Upcoming",
+      "participants": [
+        {
+          "id": "Australia",
+          "name": "Australia",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        },
+        {
+          "id": "Canada",
+          "name": "Canada",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        }
+      ]
+    },
+    {
+      "id": "quarter1",
+      "name": "Quarterfinal 1",
+      "nextMatchId": "semi1",
+      "tournamentRoundText": "Quarterfinals",
+      "startTime": "Cornhole",
+      "state": "Upcoming",
+      "participants": [
+        {
+          "id": "Germany",
+          "name": "Germany",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        },
+        {
+          "id": "playin",
+          "name": "Winner of Play-in",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        }
+      ]
+    },
+    {
+      "id": "quarter2",
+      "name": "Quarterfinal 2",
+      "nextMatchId": "semi1",
+      "tournamentRoundText": "Quarterfinals",
+      "startTime": "Cornhole",
+      "state": "Upcoming",
+      "participants": [
+        {
+          "id": "Greece",
+          "name": "Greece",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        },
+        {
+          "id": "Ireland",
+          "name": "Ireland",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        }
+      ]
+    },
+    {
+      "id": "quarter3",
+      "name": "Quarterfinal 3",
+      "nextMatchId": "semi2",
+      "tournamentRoundText": "Quarterfinals",
+      "startTime": "Cornhole",
+      "state": "Upcoming",
+      "participants": [
+        {
+          "id": "France",
+          "name": "France",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        },
+        {
+          "id": "USA",
+          "name": "USA",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        }
+      ]
+    },
+    {
+      "id": "quarter4",
+      "name": "Quarterfinal 4",
+      "nextMatchId": "semi2",
+      "tournamentRoundText": "Quarterfinals",
+      "startTime": "Cornhole",
+      "state": "Upcoming",
+      "participants": [
+        {
+          "id": "Mexico",
+          "name": "Mexico",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        },
+        {
+          "id": "Italy",
+          "name": "Italy",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        }
+      ]
+    },
+    {
+      "id": "semi1",
+      "name": "Semifinal 1",
+      "nextMatchId": "final",
+      "tournamentRoundText": "Semifinals",
+      "startTime": "Can Jam",
+      "state": "Upcoming",
+      "participants": [
+        {
+          "id": "quarter1",
+          "name": "Winner of Quarterfinal 1",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        },
+        {
+          "id": "quarter2",
+          "name": "Winner of Quarterfinal 2",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        }
+      ]
+    },
+    {
+      "id": "semi2",
+      "name": "Semifinal 2",
+      "nextMatchId": "final",
+      "tournamentRoundText": "Semifinals",
+      "startTime": "Can Jam",
+      "state": "Upcoming",
+      "participants": [
+        {
+          "id": "quarter3",
+          "name": "Winner of Quarterfinal 3",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        },
+        {
+          "id": "quarter4",
+          "name": "Winner of Quarterfinal 4",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        }
+      ]
+    },
+    {
+      "id": "final",
+      "name": "Final",
+      "nextMatchId": null,
+      "tournamentRoundText": "Final",
+      "startTime": "Gauntlet",
+      "state": "Upcoming",
+      "participants": [
+        {
+          "id": "semi1",
+          "name": "Winner of Semifinal 1",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        },
+        {
+          "id": "semi2",
+          "name": "Winner of Semifinal 2",
+          "isWinner": false,
+          "status": null,
+          "resultText": ""
+        }
+      ]
+    }
+  ],
+  "bracketPlayLive": true,
+  "bracketPlayOver": false
 }

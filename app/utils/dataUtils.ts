@@ -3,7 +3,7 @@ import path from "path";
 
 export const saveDataUtil = async (data: any) => {
   try {
-    const response = await fetch("/api/saveData", {
+    const response = await fetch("/api/saveBracketStatus", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
