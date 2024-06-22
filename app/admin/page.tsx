@@ -27,6 +27,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
+import { Description } from "@radix-ui/react-toast";
+import { toast } from "@/components/ui/use-toast";
 
 const AdminPage: React.FC = () => {
   const { schedule, groupStageActive, loading, error } = useSchedules();
@@ -281,14 +283,30 @@ const AdminPage: React.FC = () => {
       });
 
       if (!response.ok) {
+        toast({
+          title: "Error",
+          description: "Failed to start group stage",
+          variant: "destructive",
+          duration: 3000,
+        });
         throw new Error("Failed to start group stage");
       }
 
       setCurrentGroupStageActive(true);
-      alert("Group stage started successfully!");
+      toast({
+        title: "Success",
+        description: "Group stage started successfully",
+        variant: "default",
+        duration: 3000,
+      });
     } catch (error) {
       console.error("An error occurred:", error);
-      alert("Failed to start group stage");
+      toast({
+        title: "Error",
+        description: "Failed to start group stage",
+        variant: "destructive",
+        duration: 3000,
+      });
     }
   };
   if (loading) {

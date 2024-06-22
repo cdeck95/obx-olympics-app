@@ -265,5 +265,6 @@
       ]
     }
   ],
-  "groupStageActive": false
+  "groupStageActive": false,
+  "groupStageOver": true
 }

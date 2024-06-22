@@ -23,14 +23,20 @@ import { useSchedules } from "./hooks/useSchedules";
 import useTeams from "./hooks/useTeams";
 import useTeam from "./hooks/useTeam";
 import { useTheme } from "next-themes";
+import EndedLabel from "./components/EndedLabel";
+import LiveLabel from "./components/LiveLabel";
+import { Label } from "@/components/ui/label";
+import NotStartedLabel from "./components/NotStartedLabel";
 
 export default function Home() {
-  const { schedule, loading, error } = useSchedules();
+  const { schedule, groupStageActive, groupStageOver, loading, error } =
+    useSchedules();
   const [standings, setStandings] = useState<TeamStanding[]>([]);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<any[]>([]);
   const userTeam = useTeam();
   const theme = useTheme();
+  const notStarted = !groupStageActive && !groupStageOver;
 
   useEffect(() => {
     if (teamsData) {
@@ -54,8 +60,14 @@ export default function Home() {
     <div className="grid grid-cols-1 w-full items-start justify-start gap-4">
       {/* <h1 className="text-3xl font-bold">Standings</h1> */}
       <Card>
-        <CardHeader>
+        <CardHeader className="flex flex-row justify-between items-center w-full p-4">
           <p className="text-lg font-semibold">Standings</p>
+          {groupStageActive ? (
+            <LiveLabel />
+          ) : groupStageOver ? (
+            <EndedLabel />
+          ) : null}
+          {notStarted ? <NotStartedLabel /> : null}
         </CardHeader>
         <CardContent>
           {loading ? (

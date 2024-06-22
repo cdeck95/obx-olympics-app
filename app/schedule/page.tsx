@@ -90,7 +90,7 @@ export default function Schedule() {
             </TabsContent>
             <TabsContent value="byRound">
               <Card className="grid grid-cols-1 w-full h-full p-4">
-                <CardHeader>
+                <CardHeader className="grid grid-cols-1 p-4 unset">
                   <CardTitle>Schedule by Round</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4 grid grid-cols-1 gap-8 w-full">
