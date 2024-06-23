@@ -40,7 +40,7 @@ export default function Home() {
   const [standings, setStandings] = useState<TeamStanding[]>([]);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<any[]>([]);
-  const userTeam = useTeam();
+  const { team: userTeam, setTeam } = useTeam();
   const theme = useTheme();
   const notStarted = !groupStageActive && !groupStageOver;
 
@@ -69,7 +69,7 @@ export default function Home() {
       {/* <h1 className="text-3xl font-bold">Standings</h1> */}
       <Card>
         <CardHeader className="flex flex-row justify-between items-center w-full p-4">
-          <p className="text-lg font-semibold">Standings</p>
+          <p className="text-lg font-semibold">Group Play - Standings</p>
           {groupStageActive ? (
             <LiveLabel />
           ) : groupStageOver ? (
@@ -101,7 +101,9 @@ export default function Home() {
                   return (
                     <TableRow
                       key={standing.team}
-                      className={isUserTeam ? "border-2 border-yellow-400" : ""}
+                      className={
+                        isUserTeam ? "!border-2 !border-yellow-400" : ""
+                      }
                     >
                       <TableCell>{standing.position}</TableCell>
                       <TableCell className="min-w-fit">

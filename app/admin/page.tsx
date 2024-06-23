@@ -30,6 +30,12 @@ import { Input } from "@/components/ui/input";
 import { Description } from "@radix-ui/react-toast";
 import { toast } from "@/components/ui/use-toast";
 import { Round } from "../interfaces/Round";
+import { createBracketData } from "../data/bracket";
+import { TeamStanding } from "../interfaces/TeamStanding";
+import useTeam from "../hooks/useTeam";
+import useTeams from "../hooks/useTeams";
+import { calculateStandings } from "../utils/calculateStandings";
+import { Game } from "@g-loot/react-tournament-brackets";
 
 const AdminPage: React.FC = () => {
   const {
@@ -37,6 +43,7 @@ const AdminPage: React.FC = () => {
     scheduleMatches,
     groupStageActive,
     groupStageOver,
+    bracketPlayLive,
     loading,
     error,
     loadSchedules,
@@ -44,7 +51,32 @@ const AdminPage: React.FC = () => {
   console.log("Schedule Rounds:", scheduleRounds);
   const stationsData = useStations();
   const [matches, setMatches] = useState<Match[]>([]);
+  const [bracketMatches, setBracketMatches] = useState<Game[]>([]);
+  const [bracketLive, setBracketLive] = useState<boolean>(false);
   const [unsavedChanges, setUnsavedChanges] = useState<Set<number>>(new Set());
+  const [standings, setStandings] = useState<TeamStanding[]>([]);
+  const teamsData = useTeams();
+  const [teams, setTeams] = useState<any[]>([]);
+
+  useEffect(() => {
+    if (teamsData) {
+      setTeams(teamsData.teams);
+    }
+  }, [teamsData]);
+
+  useEffect(() => {
+    if (scheduleRounds) {
+      try {
+        const teamsList = teams.map((team) => team.name); // Extract team names from the teams data
+        const matches = scheduleRounds.flatMap((round: any) => round.matches);
+        const standings = calculateStandings(teamsList, matches);
+        console.log("Standings", standings);
+        setStandings(standings);
+      } catch (error) {
+        console.error("Failed to calculate standings", error);
+      }
+    }
+  }, [scheduleRounds, teams]);
 
   const columns: ColumnDef<Match>[] = [
     {
@@ -211,6 +243,50 @@ const AdminPage: React.FC = () => {
       },
     },
   ];
+
+  const handleStartBracketPlay = async () => {
+    const newBracketMatches = createBracketData(standings);
+    setBracketMatches(newBracketMatches);
+    setBracketLive(true);
+    try {
+      const response = await fetch("/api/saveBracketStatus", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          bracketMatches: newBracketMatches,
+          bracketPlayLive: true,
+          bracketPlayOver: false,
+        }),
+      });
+
+      if (!response.ok) {
+        toast({
+          title: "Error",
+          description: "Failed to start bracket play",
+          variant: "destructive",
+          duration: 3000,
+        });
+        throw new Error("Failed to start bracket play");
+      }
+
+      toast({
+        title: "Success",
+        description: "Bracket play started successfully",
+        variant: "default",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("An error occurred:", error);
+      toast({
+        title: "Error",
+        description: "Failed to start bracket play",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
 
   const handleScoreChange = (
     matchId: number,
@@ -408,6 +484,12 @@ const AdminPage: React.FC = () => {
     }
   };
 
+  useEffect(() => {
+    if (bracketPlayLive) {
+      setBracketLive(true);
+    }
+  }, [bracketPlayLive]);
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -415,6 +497,10 @@ const AdminPage: React.FC = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
+  // const allMatches = [...matches, ...bracketMatches].filter(
+  //   (match) => match.team1 && match.team2
+  // );
 
   return (
     <div className="grid grid-cols-1 w-full gap-4">
@@ -428,9 +514,9 @@ const AdminPage: React.FC = () => {
         <Button onClick={handleEndGroupStage} disabled={!groupStageActive}>
           {groupStageActive ? "End Group Stage" : "Group Stage Ended"}
         </Button>
-        {/* {groupStageOver &&  <Button onClick={handleStartBracketPlay} disabled={!bracketPlayActive}>
-          {bracketActive ? "End Bracket Play" : "Start Bracket Play"}
-        </Button>} */}
+        <Button onClick={handleStartBracketPlay} disabled={bracketLive}>
+          {bracketLive ? "Bracket Play Active" : "Start Bracket Play"}
+        </Button>
       </div>
       <DataTable columns={columns} data={matches} />
     </div>

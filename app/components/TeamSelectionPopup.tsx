@@ -24,20 +24,20 @@ import {
 } from "@/components/ui/select";
 
 const teams = [
-  "Mexico",
-  "Germany",
-  "Italy",
-  "Greece",
-  "Ireland",
-  "USA",
+  "Australia",
   "Canada",
   "France",
-  "Australia",
+  "Germany",
+  "Greece",
+  "Ireland",
+  "Italy",
+  "Mexico",
+  "USA",
 ];
 
 const TeamSelectionPopup: React.FC = () => {
   const [showPopup, setShowPopup] = useState(false);
-  const team = useTeam();
+  const { team, setTeam } = useTeam();
   const [selectedTeam, setSelectedTeam] = useState<string>(team || teams[0]);
 
   useEffect(() => {
@@ -49,7 +49,9 @@ const TeamSelectionPopup: React.FC = () => {
 
   const handleSave = () => {
     if (selectedTeam) {
-      Cookies.set("userTeam", selectedTeam, { expires: 7 }); // Save team with 7 days expiration
+      setTeam(selectedTeam); // Set the team
+      Cookies.set("userTeam", selectedTeam, { expires: 30 }); // Save team with 7 days expiration
+      window.location.reload(); // Reload the page
     }
     setShowPopup(false); // Close the popup
   };
@@ -65,7 +67,7 @@ const TeamSelectionPopup: React.FC = () => {
 
   return (
     <Dialog open={true}>
-      <DialogContent className="max-w-[325px] lg:max-w-[600px]">
+      <DialogContent className="max-w-[300px] lg:max-w-[400px]">
         <DialogHeader>
           <DialogTitle>Select Your Team</DialogTitle>
         </DialogHeader>
@@ -74,7 +76,7 @@ const TeamSelectionPopup: React.FC = () => {
             value={selectedTeam}
             onValueChange={(e) => setSelectedTeam(e)}
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger className="w-full max-w-[600px]">
               <SelectValue placeholder="Select a team" />
             </SelectTrigger>
             <SelectContent>

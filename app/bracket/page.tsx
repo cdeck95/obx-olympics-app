@@ -12,12 +12,21 @@ import { toast } from "@/components/ui/use-toast";
 import { simulateGroupPlay } from "../utils/simulateGroupPlay";
 import { useSchedules } from "../hooks/useSchedules";
 import useTeams from "../hooks/useTeams";
+import { Game } from "@g-loot/react-tournament-brackets";
+import LiveLabel from "../components/LiveLabel";
+import EndedLabel from "../components/EndedLabel";
+import NotStartedLabel from "../components/NotStartedLabel";
 
 const BracketDisplay: React.FC = () => {
-  // const [groupAStandings, setGroupAStandings] = useState<TeamStanding[]>([]);
-  // const [groupBStandings, setGroupBStandings] = useState<TeamStanding[]>([]);
-  const [bracketData, setBracketData] = useState<any[]>([]);
-  const { scheduleMatches, scheduleRounds, loading, error } = useSchedules();
+  const [bracketData, setBracketData] = useState<Game[]>([]);
+  const {
+    scheduleMatches,
+    scheduleRounds,
+    bracketPlayLive,
+    bracketPlayOver,
+    loading,
+    error,
+  } = useSchedules();
   const [standings, setStandings] = useState<TeamStanding[]>([]);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<any[]>([]);
@@ -43,79 +52,48 @@ const BracketDisplay: React.FC = () => {
 
   const handleSaveData = async (data: any) => {
     try {
-      await saveDataUtil(data);
-      alert("Data saved successfully");
+      await saveDataUtil({ bracketMatches: data, bracketPlayLive: true });
+      // toast({ title: "Data saved successfully", variant: "default" });
     } catch (error) {
       console.error("Error saving data:", error);
-      alert("Error saving data");
+      toast({ title: "Error saving data", variant: "destructive" });
     }
   };
 
-  const handleLoadData = async () => {
-    try {
-      const data = await loadDataUtil();
-      setBracketData(data.mainBracket);
-    } catch (error) {
-      console.error("Error loading data:", error);
-      alert("Error loading data");
+  const initializeBracket = () => {
+    if (standings.length > 0) {
+      const bracket = createBracketData(standings);
+      console.log("Bracket data:", bracket);
+      setBracketData(bracket);
+      handleSaveData(bracket);
     }
   };
 
   useEffect(() => {
-    const loadDataAsync = async () => {
-      try {
-        await handleLoadData(); // Load data on component mount
-
-        if (bracketData.length === 0 && standings.length > 0) {
-          // const { standingsA, standingsB } = simulateGroupPlay(
-          //   scheduleA,
-          //   scheduleB,
-          //   groupA,
-          //   groupB
-          // );
-
-          // setGroupAStandings(standingsA);
-          // setGroupBStandings(standingsB);
-
-          // const calculatedGroupAStandings = calculateStandings(
-          //   groupA,
-          //   scheduleA.flatMap((round) => round.matches)
-          // );
-
-          // const calculatedGroupBStandings = calculateStandings(
-          //   groupB,
-          //   scheduleB.flatMap((round) => round.matches)
-          // );
-
-          // setGroupAStandings(calculatedGroupAStandings);
-          // setGroupBStandings(calculatedGroupBStandings);
-
-          // const bracket = createBracketData(
-          //   calculatedGroupAStandings,
-          //   calculatedGroupBStandings
-          // );
-
-          console.log("Standings:", standings);
-          const bracket = createBracketData(standings);
-          console.log("Bracket data:", bracket);
-          setBracketData(bracket);
-        }
-      } catch (error) {
-        console.error("Error initializing data:", error);
-      }
-    };
-
-    loadDataAsync();
+    if (bracketData.length === 0 && standings.length > 0) {
+      initializeBracket();
+    }
   }, [standings]);
+
+  const notStarted = !bracketPlayLive && !bracketPlayOver;
 
   return (
     <div className="grid grid-cols-1 min-h-screen w-full text-center items-start">
-      <h1>Tournament Bracket</h1>
-      {bracketData.length > 0 && <BracketTree mainBracket={bracketData} />}
-      <button onClick={() => handleSaveData({ mainBracket: bracketData })}>
-        Save Data
-      </button>
-      <button onClick={handleLoadData}>Load Data</button>
+      <div className="flex flex-row w-full justify-center gap-8 items-center">
+        <h1>Tournament Bracket</h1>
+        {bracketPlayLive ? (
+          <LiveLabel />
+        ) : bracketPlayOver ? (
+          <EndedLabel />
+        ) : null}
+        {notStarted ? <NotStartedLabel /> : null}
+      </div>
+
+      {bracketData.length > 0 && (
+        <div className="grid grid-cols-1 w-full h-full items-start justify-start gap-4">
+          <BracketTree mainBracket={bracketData} />
+        </div>
+      )}
     </div>
   );
 };

@@ -120,6 +120,19 @@ function SideMenu() {
                 Bracket
               </Link>
             </Button>
+            <Button
+              asChild
+              variant={pathname === "/settings" ? "secondary" : "ghost"}
+              className="w-full justify-start flex gap-2 my-1"
+            >
+              <Link
+                href="/settings"
+                className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+              >
+                <Settings className="h-4 w-4" />
+                Settings
+              </Link>
+            </Button>
             <h2 className="my-4 px-4 text-lg font-semibold tracking-tight">
               Admin Tools
             </h2>

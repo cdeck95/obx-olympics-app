@@ -12,7 +12,7 @@ const useTeam = () => {
     }
   }, []);
 
-  return team;
+  return { team, setTeam };
 };
 
 export default useTeam;

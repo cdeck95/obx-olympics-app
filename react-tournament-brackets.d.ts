@@ -23,6 +23,8 @@ declare module "@g-loot/react-tournament-brackets" {
   interface SVGViewerProps {
     width: number;
     height: number;
+    background: string;
+    SVGBackground: string;
     children: React.ReactNode;
   }
 

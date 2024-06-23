@@ -7,6 +7,8 @@ export const useSchedules = () => {
   const [scheduleMatches, setScheduleMatches] = useState<Match[] | null>(null);
   const [groupStageActive, setGroupStageActive] = useState<boolean>(false);
   const [groupStageOver, setGroupStageOver] = useState<boolean>(false);
+  const [bracketPlayLive, setBracketPlayLive] = useState<boolean>(false);
+  const [bracketPlayOver, setBracketPlayOver] = useState<boolean>(false);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -48,6 +50,8 @@ export const useSchedules = () => {
       setScheduleMatches(matches);
       setGroupStageActive(schedulesData.groupStageActive);
       setGroupStageOver(schedulesData.groupStageOver);
+      setBracketPlayLive(schedulesData.bracketPlayLive);
+      setBracketPlayOver(schedulesData.bracketPlayOver);
       setLoading(false);
     } catch (error: any) {
       console.error("An error occurred:", error);
@@ -65,6 +69,8 @@ export const useSchedules = () => {
     scheduleMatches,
     groupStageActive,
     groupStageOver,
+    bracketPlayLive,
+    bracketPlayOver,
     loading,
     error,
     loadSchedules,

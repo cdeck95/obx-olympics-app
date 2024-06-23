@@ -40,7 +40,7 @@ export default function Schedule() {
   console.log("Schedule Matches:", scheduleMatches);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<Team[]>([]);
-  const team = useTeam();
+  const { team, setTeam } = useTeam();
   const [selectedTeam, setSelectedTeam] = useState<string | null>(team || null);
   const notStarted = !groupStageActive && !groupStageOver;
 

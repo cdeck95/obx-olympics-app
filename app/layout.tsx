@@ -31,7 +31,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Toaster />
           <div className="flex row-auto w-full h-full">
             <SideMenu />
             <div className="w-full">
@@ -43,6 +42,7 @@ export default function RootLayout({
             </div>
           </div>
         </ThemeProvider>
+        <Toaster />
       </body>
     </html>
   );
