@@ -122,6 +122,28 @@ const BracketTree: React.FC<BracketTreeProps> = ({ mainBracket }) => {
       <SingleEliminationBracket
         matches={mainBracket}
         matchComponent={Match}
+        //if we want the other vars like onMatchClick, topParty, etc... need to declare them in the delcaration interface
+        // matchComponent={({ match }) => (
+        //   <div
+        //     className={`${
+        //       match.state === "Live"
+        //         ? "border-2 border-green-500 text-white"
+        //         : ""
+        //     }`}
+        //   >
+        //     <h3>{match.name}</h3>
+        //     <p>{match.tournamentRoundText}</p>
+        //     <div>
+        //       {match.participants.map((participant) => (
+        //         <div key={participant.id}>
+        //           <span>{participant.name}</span>
+        //           {participant.isWinner && <span> (Winner)</span>}
+        //         </div>
+        //       ))}
+        //     </div>
+        //   </div>
+        // )}
+
         // theme={theme}
         // options={{
         //   style: {
@@ -139,7 +161,6 @@ const BracketTree: React.FC<BracketTreeProps> = ({ mainBracket }) => {
             SVGBackground={svgBackground}
             width={bracketWidth}
             height={bracketHeight}
-            // {...props}
           >
             {children}
           </UncontrolledReactSVGPanZoom>
@@ -150,20 +171,3 @@ const BracketTree: React.FC<BracketTreeProps> = ({ mainBracket }) => {
 };
 
 export default BracketTree;
-
-// svgWrapper={({ children, ...props }) => (
-//           <SVGViewer width={bracketWidth} height={bracketHeight}>
-//             {children}
-//           </SVGViewer>
-//         )}
-//       />
-//   svgWrapper={({ children, ...props }) => (
-//     <UncontrolledReactSVGPanZoom
-//       width={bracketWidth}
-//       height={bracketHeight}
-//       // {...props}
-//     >
-//       {children}
-//     </UncontrolledReactSVGPanZoom>
-//   )}
-// />

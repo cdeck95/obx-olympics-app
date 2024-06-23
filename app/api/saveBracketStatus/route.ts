@@ -5,10 +5,13 @@ import path from "path";
 export async function POST(req: Request) {
   try {
     const data = await req.json();
+    console.log("Received data:", data);
     const filePath = path.join(process.cwd(), "app", "data", "schedules.json");
+    console.log("File path:", filePath);
 
     // Read existing data from the schedules.json file
     const existingData = JSON.parse(fs.readFileSync(filePath, "utf8"));
+    console.log("Existing data:", existingData);
 
     // Update the bracketMatches and bracketPlayLive fields in the existing data
     existingData.bracketMatches = data.bracketMatches;

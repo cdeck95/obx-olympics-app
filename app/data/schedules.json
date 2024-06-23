@@ -6,15 +6,14 @@
       "team2": "Germany",
       "stationId": 5,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 5,
         "name": "Can Jam",
         "hasMultipleBoards": true
       },
       "roundNumber": 1,
-      "scoreteam1": 21,
       "isWinnerTeam1": false,
       "isWinnerTeam2": true
     },
@@ -24,8 +23,8 @@
       "team2": "France",
       "stationId": 2,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 2,
         "name": "Pong",
@@ -40,9 +39,9 @@
       "team1": "Italy",
       "team2": "Greece",
       "stationId": 6,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 6,
         "name": "Tic Tac Toe Flip Cup",
@@ -58,8 +57,8 @@
       "team2": "Mexico",
       "stationId": 6,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 6,
         "name": "Tic Tac Toe Flip Cup",
@@ -75,8 +74,8 @@
       "team2": "Mexico",
       "stationId": 2,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 2,
         "name": "Pong",
@@ -91,9 +90,9 @@
       "team1": "Greece",
       "team2": "Ireland",
       "stationId": 4,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 4,
         "name": "Flip Cup",
@@ -108,9 +107,9 @@
       "team1": "Australia",
       "team2": "Canada",
       "stationId": 5,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 5,
         "name": "Can Jam",
@@ -125,9 +124,9 @@
       "team1": "Germany",
       "team2": "France",
       "stationId": 6,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 6,
         "name": "Tic Tac Toe Flip Cup",
@@ -142,9 +141,9 @@
       "team1": "USA",
       "team2": "Germany",
       "stationId": 3,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 3,
         "name": "Cornhole",
@@ -160,8 +159,8 @@
       "team2": "Greece",
       "stationId": 3,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 3,
         "name": "Cornhole",
@@ -177,8 +176,8 @@
       "team2": "Germany",
       "stationId": 1,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 1,
         "name": "Polish Horseshoes",
@@ -193,9 +192,9 @@
       "team1": "Ireland",
       "team2": "Australia",
       "stationId": 2,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 2,
         "name": "Pong",
@@ -210,9 +209,9 @@
       "team1": "Greece",
       "team2": "Canada",
       "stationId": 1,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 1,
         "name": "Polish Horseshoes",
@@ -228,8 +227,8 @@
       "team2": "USA",
       "stationId": 5,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 5,
         "name": "Can Jam",
@@ -245,8 +244,8 @@
       "team2": "Germany",
       "stationId": 4,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 4,
         "name": "Flip Cup",
@@ -262,8 +261,8 @@
       "team2": "Ireland",
       "stationId": 3,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 3,
         "name": "Cornhole",
@@ -279,8 +278,8 @@
       "team2": "France",
       "stationId": 1,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 1,
         "name": "Polish Horseshoes",
@@ -296,8 +295,8 @@
       "team2": "Italy",
       "stationId": 1,
       "scoreTeam1": 0,
-      "scoreTeam2": 1,
-      "status": "Completed",
+      "scoreTeam2": 0,
+      "status": "Upcoming",
       "station": {
         "id": 1,
         "name": "Polish Horseshoes",
@@ -312,9 +311,9 @@
       "team1": "Mexico",
       "team2": "Australia",
       "stationId": 4,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 4,
         "name": "Flip Cup",
@@ -329,9 +328,9 @@
       "team1": "France",
       "team2": "USA",
       "stationId": 4,
-      "scoreTeam1": 1,
+      "scoreTeam1": 0,
       "scoreTeam2": 0,
-      "status": "Completed",
+      "status": "Upcoming",
       "station": {
         "id": 4,
         "name": "Flip Cup",
@@ -343,200 +342,5 @@
     }
   ],
   "groupStageActive": false,
-  "groupStageOver": true,
-  "bracketMatches": [
-    {
-      "id": "playin",
-      "name": "Play-in Match",
-      "nextMatchId": "quarter1",
-      "tournamentRoundText": "Play-in",
-      "startTime": "Flip Cup",
-      "state": "Upcoming",
-      "participants": [
-        {
-          "id": "Australia",
-          "name": "Australia",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        },
-        {
-          "id": "Canada",
-          "name": "Canada",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        }
-      ]
-    },
-    {
-      "id": "quarter1",
-      "name": "Quarterfinal 1",
-      "nextMatchId": "semi1",
-      "tournamentRoundText": "Quarterfinals",
-      "startTime": "Cornhole",
-      "state": "Upcoming",
-      "participants": [
-        {
-          "id": "Germany",
-          "name": "Germany",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        },
-        {
-          "id": "playin",
-          "name": "Winner of Play-in",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        }
-      ]
-    },
-    {
-      "id": "quarter2",
-      "name": "Quarterfinal 2",
-      "nextMatchId": "semi1",
-      "tournamentRoundText": "Quarterfinals",
-      "startTime": "Cornhole",
-      "state": "Upcoming",
-      "participants": [
-        {
-          "id": "Greece",
-          "name": "Greece",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        },
-        {
-          "id": "Ireland",
-          "name": "Ireland",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        }
-      ]
-    },
-    {
-      "id": "quarter3",
-      "name": "Quarterfinal 3",
-      "nextMatchId": "semi2",
-      "tournamentRoundText": "Quarterfinals",
-      "startTime": "Cornhole",
-      "state": "Upcoming",
-      "participants": [
-        {
-          "id": "France",
-          "name": "France",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        },
-        {
-          "id": "USA",
-          "name": "USA",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        }
-      ]
-    },
-    {
-      "id": "quarter4",
-      "name": "Quarterfinal 4",
-      "nextMatchId": "semi2",
-      "tournamentRoundText": "Quarterfinals",
-      "startTime": "Cornhole",
-      "state": "Upcoming",
-      "participants": [
-        {
-          "id": "Mexico",
-          "name": "Mexico",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        },
-        {
-          "id": "Italy",
-          "name": "Italy",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        }
-      ]
-    },
-    {
-      "id": "semi1",
-      "name": "Semifinal 1",
-      "nextMatchId": "final",
-      "tournamentRoundText": "Semifinals",
-      "startTime": "Can Jam",
-      "state": "Upcoming",
-      "participants": [
-        {
-          "id": "quarter1",
-          "name": "Winner of Quarterfinal 1",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        },
-        {
-          "id": "quarter2",
-          "name": "Winner of Quarterfinal 2",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        }
-      ]
-    },
-    {
-      "id": "semi2",
-      "name": "Semifinal 2",
-      "nextMatchId": "final",
-      "tournamentRoundText": "Semifinals",
-      "startTime": "Can Jam",
-      "state": "Upcoming",
-      "participants": [
-        {
-          "id": "quarter3",
-          "name": "Winner of Quarterfinal 3",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        },
-        {
-          "id": "quarter4",
-          "name": "Winner of Quarterfinal 4",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        }
-      ]
-    },
-    {
-      "id": "final",
-      "name": "Final",
-      "nextMatchId": null,
-      "tournamentRoundText": "Final",
-      "startTime": "Gauntlet",
-      "state": "Upcoming",
-      "participants": [
-        {
-          "id": "semi1",
-          "name": "Winner of Semifinal 1",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        },
-        {
-          "id": "semi2",
-          "name": "Winner of Semifinal 2",
-          "isWinner": false,
-          "status": null,
-          "resultText": ""
-        }
-      ]
-    }
-  ],
-  "bracketPlayLive": true
+  "groupStageOver": false
 }

@@ -1,20 +1,19 @@
 const fs = require("fs");
 
-// Read the JSON file
-const scheduleData = JSON.parse(
-  fs.readFileSync("app/data/schedules.json", "utf8")
-);
+const checkSchedule = (scheduleData) => {
+  const schedule = scheduleData.schedule;
 
-// Initialize an empty object to store the occurrences of stationId per team
-const teamStations = {};
+  if (!Array.isArray(schedule)) {
+    throw new Error("Invalid schedule format. 'schedule' should be an array.");
+  }
 
-// Iterate through each round and match in the schedule
-scheduleData.schedule.forEach((round) => {
-  round.matches.forEach((match) => {
-    const { team1, team2, stationId } = match;
+  const teamStations = {};
+  const stationUsagePerRound = {};
 
-    // Ignore cases where the station is null or the team is BYE
-    if (stationId === null || team1 === "BYE" || team2 === "BYE") {
+  schedule.forEach((match) => {
+    const { team1, team2, station, roundNumber } = match;
+
+    if (station === null || team1 === "BYE" || team2 === "BYE") {
       return;
     }
 
@@ -25,56 +24,97 @@ scheduleData.schedule.forEach((round) => {
       teamStations[team2] = {};
     }
 
-    if (!teamStations[team1][stationId]) {
-      teamStations[team1][stationId] = 0;
+    if (!teamStations[team1][station.id]) {
+      teamStations[team1][station.id] = 0;
     }
-    if (!teamStations[team2][stationId]) {
-      teamStations[team2][stationId] = 0;
+    if (!teamStations[team2][station.id]) {
+      teamStations[team2][station.id] = 0;
     }
 
-    teamStations[team1][stationId]++;
-    teamStations[team2][stationId]++;
+    teamStations[team1][station.id]++;
+    teamStations[team2][station.id]++;
+
+    if (!stationUsagePerRound[roundNumber]) {
+      stationUsagePerRound[roundNumber] = {};
+    }
+
+    if (!stationUsagePerRound[roundNumber][station.id]) {
+      stationUsagePerRound[roundNumber][station.id] = 0;
+    }
+
+    stationUsagePerRound[roundNumber][station.id]++;
   });
-});
 
-// Print the occurrences of each stationId per team
-console.log(JSON.stringify(teamStations, null, 2));
+  console.log(JSON.stringify(teamStations, null, 2));
+  console.log(JSON.stringify(stationUsagePerRound, null, 2));
 
-// Check for any team playing at a station more than once
-let hasErrors = false;
-Object.keys(teamStations).forEach((team) => {
-  Object.keys(teamStations[team]).forEach((stationId) => {
-    if (teamStations[team][stationId] > 1) {
+  let hasErrors = false;
+  Object.keys(teamStations).forEach((team) => {
+    Object.keys(teamStations[team]).forEach((stationId) => {
+      if (teamStations[team][stationId] > 1) {
+        console.error(
+          `Error: Team ${team} is scheduled to play at station ${stationId} more than once.`
+        );
+        hasErrors = true;
+      }
+    });
+  });
+
+  Object.keys(stationUsagePerRound).forEach((roundNumber) => {
+    Object.keys(stationUsagePerRound[roundNumber]).forEach((stationId) => {
+      const station = schedule.find(
+        (match) => match.station && match.station.id == stationId
+      ).station;
+
+      if (
+        stationUsagePerRound[roundNumber][stationId] > 1 &&
+        !station.hasMultipleBoards
+      ) {
+        console.error(
+          `Error: Station ${station.name} is used more than once in round ${roundNumber} but does not have multiple boards.`
+        );
+        hasErrors = true;
+      }
+    });
+  });
+
+  const rounds = schedule.reduce((acc, match) => {
+    const round = match.roundNumber;
+    if (!acc[round]) {
+      acc[round] = [];
+    }
+    acc[round].push(match);
+    return acc;
+  }, {});
+
+  const roundsWithIssues = Object.values(rounds).filter(
+    (round) => round.length < 3
+  );
+  const tooManyRounds = Object.keys(rounds).length > 6;
+
+  if (roundsWithIssues.length > 0) {
+    roundsWithIssues.forEach((round) => {
       console.error(
-        `Error: Team ${team} is scheduled to play at station ${stationId} more than once.`
+        `Error: Round ${round[0].roundNumber} has only ${round.length} matches.`
       );
-      hasErrors = true;
-    }
-  });
-});
+    });
+    hasErrors = true;
+  }
 
-// Check for rounds having less than 3 matches or more than 6 rounds
-const roundsWithIssues = scheduleData.schedule.filter(
-  (round) => round.matches.length < 3
-);
-const tooManyRounds = scheduleData.schedule.length > 6;
+  if (tooManyRounds) {
+    console.error("Error: Schedule has more than 6 rounds.");
+    hasErrors = true;
+  }
 
-if (roundsWithIssues.length > 0) {
-  roundsWithIssues.forEach((round) => {
+  if (hasErrors) {
     console.error(
-      `Error: Round ${round.roundNumber} has only ${round.matches.length} matches.`
+      "Schedule has errors. Please review the above error messages."
     );
-  });
-  hasErrors = true;
-}
+    return { valid: false };
+  } else {
+    console.log("Schedule is valid.");
+    return { valid: true };
+  }
+};
 
-if (tooManyRounds) {
-  console.error("Error: Schedule has more than 6 rounds.");
-  hasErrors = true;
-}
-
-if (hasErrors) {
-  console.error("Schedule has errors. Please review the above error messages.");
-} else {
-  console.log("Schedule is valid.");
-}
+module.exports = checkSchedule;

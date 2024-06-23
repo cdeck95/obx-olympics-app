@@ -154,6 +154,21 @@ function MenuHeader() {
                 </Link>
               </Button>
             </DialogTrigger>
+            <DialogTrigger asChild>
+              <Button
+                asChild
+                variant={pathname === "/bracketAdmin" ? "secondary" : "ghost"}
+                className="w-full justify-start flex gap-2 my-1"
+              >
+                <Link
+                  href="/bracketAdmin"
+                  className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+                >
+                  <ShieldCheck className="h-4 w-4" />
+                  Bracket Admin
+                </Link>
+              </Button>
+            </DialogTrigger>
           </nav>
         </SheetContent>
       </Sheet>
