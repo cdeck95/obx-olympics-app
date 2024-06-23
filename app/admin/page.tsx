@@ -36,6 +36,7 @@ import useTeam from "../hooks/useTeam";
 import useTeams from "../hooks/useTeams";
 import { calculateStandings } from "../utils/calculateStandings";
 import { Game } from "@g-loot/react-tournament-brackets";
+import Cookies from "js-cookie";
 
 const AdminPage: React.FC = () => {
   const {
@@ -57,6 +58,30 @@ const AdminPage: React.FC = () => {
   const [standings, setStandings] = useState<TeamStanding[]>([]);
   const teamsData = useTeams();
   const [teams, setTeams] = useState<any[]>([]);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [password, setPassword] = useState<string>("");
+
+  useEffect(() => {
+    const authCookie = Cookies.get("admin-auth");
+    if (authCookie) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
+  const handlePasswordSubmit = () => {
+    const correctPassword = "obx2024admin"; // Replace with your actual password
+    if (password === correctPassword) {
+      Cookies.set("admin-auth", "true", { expires: 3 }); // Set cookie for 72 hours
+      setIsAuthenticated(true);
+    } else {
+      toast({
+        title: "Error",
+        description: "Incorrect password",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
 
   useEffect(() => {
     if (teamsData) {
@@ -508,6 +533,22 @@ const AdminPage: React.FC = () => {
   // const allMatches = [...matches, ...bracketMatches].filter(
   //   (match) => match.team1 && match.team2
   // );
+
+  if (!isAuthenticated) {
+    return (
+      <div className="flex flex-col items-center justify-center h-screen">
+        <h2 className="mb-4">Enter Admin Password</h2>
+        <Input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          placeholder="Password"
+          className="mb-4"
+        />
+        <Button onClick={handlePasswordSubmit}>Submit</Button>
+      </div>
+    );
+  }
 
   return (
     <div className="grid grid-cols-1 w-full gap-4">
