@@ -53,7 +53,7 @@ const BracketDisplay: React.FC = () => {
   const handleSaveData = async (data: any) => {
     try {
       await saveDataUtil({ bracketMatches: data, bracketPlayLive: true });
-      toast({ title: "Data saved successfully", variant: "default" });
+      // toast({ title: "Data saved successfully", variant: "default" });
     } catch (error) {
       console.error("Error saving data:", error);
       toast({ title: "Error saving data", variant: "destructive" });

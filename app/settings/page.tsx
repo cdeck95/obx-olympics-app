@@ -47,7 +47,7 @@ export default function Settings() {
       console.log("Setting team...");
       setTeam(selectedTeam); // Set the team
       console.log("Setting cookie...");
-      Cookies.set("userTeam", selectedTeam, { expires: 7 }); // Save team with 7 days expiration
+      Cookies.set("userTeam", selectedTeam, { expires: 30 }); // Save team with 7 days expiration
       console.log("Team saved");
       toast({
         title: "Team saved",

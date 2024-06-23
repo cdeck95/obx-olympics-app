@@ -50,7 +50,7 @@ const TeamSelectionPopup: React.FC = () => {
   const handleSave = () => {
     if (selectedTeam) {
       setTeam(selectedTeam); // Set the team
-      Cookies.set("userTeam", selectedTeam, { expires: 7 }); // Save team with 7 days expiration
+      Cookies.set("userTeam", selectedTeam, { expires: 30 }); // Save team with 7 days expiration
       window.location.reload(); // Reload the page
     }
     setShowPopup(false); // Close the popup

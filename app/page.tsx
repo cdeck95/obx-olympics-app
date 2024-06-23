@@ -69,7 +69,7 @@ export default function Home() {
       {/* <h1 className="text-3xl font-bold">Standings</h1> */}
       <Card>
         <CardHeader className="flex flex-row justify-between items-center w-full p-4">
-          <p className="text-lg font-semibold">Standings</p>
+          <p className="text-lg font-semibold">Group Play - Standings</p>
           {groupStageActive ? (
             <LiveLabel />
           ) : groupStageOver ? (
