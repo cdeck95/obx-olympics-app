@@ -1,27 +1,27 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Match } from "../interfaces/Match";
 import { createBracketData } from "../data/bracket";
 import { TeamStanding } from "../interfaces/TeamStanding";
 import { calculateStandings } from "../utils/calculateStandings";
-import { BracketMatch } from "../interfaces/BracketMatch";
 import BracketTree from "../components/BracketTree";
-import { loadDataUtil, saveDataUtil } from "../utils/dataUtils";
+import { saveDataUtil } from "../utils/dataUtils";
 import { toast } from "@/components/ui/use-toast";
-import { simulateGroupPlay } from "../utils/simulateGroupPlay";
 import { useSchedules } from "../hooks/useSchedules";
 import useTeams from "../hooks/useTeams";
 import { Game } from "@g-loot/react-tournament-brackets";
 import LiveLabel from "../components/LiveLabel";
 import EndedLabel from "../components/EndedLabel";
 import NotStartedLabel from "../components/NotStartedLabel";
+import { Label } from "@/components/ui/label";
 
 const BracketDisplay: React.FC = () => {
   const [bracketData, setBracketData] = useState<Game[]>([]);
   const {
-    scheduleMatches,
     scheduleRounds,
+    bracketMatches,
+    groupStageActive,
+    groupStageOver,
     bracketPlayLive,
     bracketPlayOver,
     loading,
@@ -50,6 +50,15 @@ const BracketDisplay: React.FC = () => {
     }
   }, [scheduleRounds, teams]);
 
+  useEffect(() => {
+    if (bracketMatches && bracketMatches.length > 0) {
+      console.log("Bracket matches Loaded:", bracketMatches);
+      setBracketData(bracketMatches);
+    } else if (standings.length > 0 && bracketData.length === 0) {
+      initializeBracket();
+    }
+  }, [bracketMatches, standings]);
+
   const handleSaveData = async (data: any) => {
     try {
       await saveDataUtil({ bracketMatches: data, bracketPlayLive: true });
@@ -61,19 +70,16 @@ const BracketDisplay: React.FC = () => {
   };
 
   const initializeBracket = () => {
-    if (standings.length > 0) {
-      const bracket = createBracketData(standings);
-      console.log("Bracket data:", bracket);
-      setBracketData(bracket);
-      handleSaveData(bracket);
+    if (groupStageOver && bracketPlayLive) {
+      if (standings.length > 0) {
+        console.log("Initializing bracket...");
+        const bracket = createBracketData(standings);
+        console.log("Bracket data:", bracket);
+        setBracketData(bracket);
+        handleSaveData(bracket);
+      }
     }
   };
-
-  useEffect(() => {
-    if (bracketData.length === 0 && standings.length > 0) {
-      initializeBracket();
-    }
-  }, [standings]);
 
   const notStarted = !bracketPlayLive && !bracketPlayOver;
 
@@ -89,10 +95,12 @@ const BracketDisplay: React.FC = () => {
         {notStarted ? <NotStartedLabel /> : null}
       </div>
 
-      {bracketData.length > 0 && (
+      {bracketData.length > 0 ? (
         <div className="grid grid-cols-1 w-full h-full items-start justify-start gap-4">
           <BracketTree mainBracket={bracketData} />
         </div>
+      ) : (
+        <Label>No Bracket Data Available</Label>
       )}
     </div>
   );

@@ -29,14 +29,14 @@ export const createBracketData = (standings: TeamStanding[]) => {
     participants: [
       {
         id: combinedStandings[7].team,
-        name: combinedStandings[7].team,
+        name: "(8) " + combinedStandings[7].team,
         isWinner: false,
         status: null,
         resultText: "",
       },
       {
         id: combinedStandings[8].team,
-        name: combinedStandings[8].team,
+        name: "(9) " + combinedStandings[8].team,
         isWinner: false,
         status: null,
         resultText: "",
@@ -55,7 +55,7 @@ export const createBracketData = (standings: TeamStanding[]) => {
       participants: [
         {
           id: combinedStandings[0].team,
-          name: combinedStandings[0].team,
+          name: "(1) " + combinedStandings[0].team,
           isWinner: false,
           status: null,
           resultText: "",
@@ -78,15 +78,15 @@ export const createBracketData = (standings: TeamStanding[]) => {
       state: "Upcoming",
       participants: [
         {
-          id: combinedStandings[1].team,
-          name: combinedStandings[1].team,
+          id: combinedStandings[3].team,
+          name: "(4) " + combinedStandings[3].team,
           isWinner: false,
           status: null,
           resultText: "",
         },
         {
-          id: combinedStandings[6].team,
-          name: combinedStandings[6].team,
+          id: combinedStandings[4].team,
+          name: "(5) " + combinedStandings[4].team,
           isWinner: false,
           status: null,
           resultText: "",
@@ -103,14 +103,14 @@ export const createBracketData = (standings: TeamStanding[]) => {
       participants: [
         {
           id: combinedStandings[2].team,
-          name: combinedStandings[2].team,
+          name: "(3) " + combinedStandings[2].team,
           isWinner: false,
           status: null,
           resultText: "",
         },
         {
           id: combinedStandings[5].team,
-          name: combinedStandings[5].team,
+          name: "(6) " + combinedStandings[5].team,
           isWinner: false,
           status: null,
           resultText: "",
@@ -126,15 +126,15 @@ export const createBracketData = (standings: TeamStanding[]) => {
       state: "Upcoming",
       participants: [
         {
-          id: combinedStandings[3].team,
-          name: combinedStandings[3].team,
+          id: combinedStandings[1].team,
+          name: "(2) " + combinedStandings[1].team,
           isWinner: false,
           status: null,
           resultText: "",
         },
         {
-          id: combinedStandings[4].team,
-          name: combinedStandings[4].team,
+          id: combinedStandings[6].team,
+          name: "(7) " + combinedStandings[6].team,
           isWinner: false,
           status: null,
           resultText: "",

@@ -111,8 +111,10 @@ export default function Schedule() {
                   <CardContent className="p-4 grid grid-cols-1 gap-8 w-full">
                     {scheduleRounds.map((round, index) => {
                       return (
-                        <div key={index}>
-                          <Label>Round {index}</Label>
+                        <div key={index} className="grid grid-cols-1 gap-4 p-0">
+                          <Label className="pl-[2px] text-md">
+                            Round {round.roundNumber}
+                          </Label>
                           <RoundMatches matches={round.matches} teams={teams} />
                         </div>
                       );

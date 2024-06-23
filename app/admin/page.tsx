@@ -85,6 +85,13 @@ const AdminPage: React.FC = () => {
         <DataTableColumnHeader column={column} title="Rd #" />
       ),
       cell: ({ row }) => row.original.roundNumber,
+      // filterFn: (row, id, value) => {
+      //   console.log("Filtering:", {
+      //     rowValue: row.getValue(id),
+      //     filterValue: value,
+      //   });
+      //   return value.includes(row.getValue(id));
+      // },
     },
     {
       accessorKey: "team1",
@@ -506,17 +513,21 @@ const AdminPage: React.FC = () => {
     <div className="grid grid-cols-1 w-full gap-4">
       <h1 className="text-xl mb-4">Admin Page</h1>
       <div className="flex flex-col justify-center items-center gap-4 w-full">
-        {!groupStageOver && (
+        {!groupStageActive && !groupStageOver && (
           <Button onClick={handleStartGroupStage} disabled={groupStageActive}>
             {groupStageActive ? "Group Stage Active" : "Start Group Stage"}
           </Button>
         )}
-        <Button onClick={handleEndGroupStage} disabled={!groupStageActive}>
-          {groupStageActive ? "End Group Stage" : "Group Stage Ended"}
-        </Button>
-        <Button onClick={handleStartBracketPlay} disabled={bracketLive}>
-          {bracketLive ? "Bracket Play Active" : "Start Bracket Play"}
-        </Button>
+        {groupStageActive && !groupStageOver && (
+          <Button onClick={handleEndGroupStage} disabled={!groupStageActive}>
+            {groupStageActive ? "End Group Stage" : "Group Stage Ended"}
+          </Button>
+        )}
+        {groupStageOver && (
+          <Button onClick={handleStartBracketPlay} disabled={bracketLive}>
+            {bracketLive ? "Bracket Play Active" : "Start Bracket Play"}
+          </Button>
+        )}
       </div>
       <DataTable columns={columns} data={matches} />
     </div>

@@ -27,6 +27,10 @@ export function DataTableToolbar<TData>({
     status: "Status",
     station: "Station",
     roundNumber: "Round Number",
+    participants: "Participants",
+    name: "Match Name",
+    state: "Status",
+    startTime: "Station",
   };
 
   const statusOptions = [
@@ -36,12 +40,12 @@ export function DataTableToolbar<TData>({
   ];
 
   const roundOptions = [
-    { value: "1", label: "Round 1" },
-    { value: "2", label: "Round 2" },
-    { value: "3", label: "Round 3" },
-    { value: "4", label: "Round 4" },
-    { value: "5", label: "Round 5" },
-    { value: "6", label: "Round 6" },
+    { value: 1, label: "Round 1" },
+    { value: 2, label: "Round 2" },
+    { value: 3, label: "Round 3" },
+    { value: 4, label: "Round 4" },
+    { value: 5, label: "Round 5" },
+    { value: 6, label: "Round 6" },
   ];
 
   return (
@@ -64,13 +68,13 @@ export function DataTableToolbar<TData>({
             options={statusOptions}
           />
         )} */}
-        {table.getColumn("roundNumber") && (
+        {/* {table.getColumn("roundNumber") && (
           <DataTableFacetedFilter
             column={table.getColumn("roundNumber")}
             title="Round"
             options={roundOptions}
           />
-        )}
+        )} */}
         {isFiltered && (
           <Button
             variant="ghost"

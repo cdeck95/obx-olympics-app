@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import { Round } from "../interfaces/Round";
 import { Match } from "../interfaces/Match";
+import { Game } from "@g-loot/react-tournament-brackets";
 
 export const useSchedules = () => {
   const [scheduleRounds, setScheduleRounds] = useState<Round[] | null>(null);
   const [scheduleMatches, setScheduleMatches] = useState<Match[] | null>(null);
+  const [bracketMatches, setBracketMatches] = useState<Game[] | null>(null);
   const [groupStageActive, setGroupStageActive] = useState<boolean>(false);
   const [groupStageOver, setGroupStageOver] = useState<boolean>(false);
   const [bracketPlayLive, setBracketPlayLive] = useState<boolean>(false);
@@ -25,29 +27,34 @@ export const useSchedules = () => {
       console.log("Schedules data:", schedulesData);
 
       const matches = schedulesData.schedule as Match[];
+      const bracketMatchesData = schedulesData.bracketMatches as Game[];
 
       // Group matches by roundNumber
-      const roundsMap: { [key: number]: Match[] } = {};
-      matches.forEach((match) => {
-        if (!roundsMap[match.roundNumber]) {
-          roundsMap[match.roundNumber] = [];
-        }
-        roundsMap[match.roundNumber].push(match);
-      });
+      const groupMatchesByRound = (matches: Match[]): Round[] => {
+        const roundsMap: { [key: number]: Match[] } = {};
+        matches.forEach((match) => {
+          if (!roundsMap[match.roundNumber]) {
+            roundsMap[match.roundNumber] = [];
+          }
+          roundsMap[match.roundNumber].push(match);
+        });
 
-      // Convert the map to an array of rounds
-      const rounds = Object.keys(roundsMap).map((roundNumber) => {
-        return {
+        // Convert the map to an array of rounds
+        return Object.keys(roundsMap).map((roundNumber) => ({
           roundNumber: parseInt(roundNumber),
           matches: roundsMap[parseInt(roundNumber)],
-        };
-      });
+        }));
+      };
 
-      console.log("Rounds:", rounds);
-      console.log("Matches:", matches);
+      const scheduleRounds = groupMatchesByRound(matches);
 
-      setScheduleRounds(rounds);
+      console.log("Schedule Rounds:", scheduleRounds);
+      console.log("Schedule Matches:", matches);
+      console.log("Bracket Matches:", bracketMatchesData);
+
+      setScheduleRounds(scheduleRounds);
       setScheduleMatches(matches);
+      setBracketMatches(bracketMatchesData);
       setGroupStageActive(schedulesData.groupStageActive);
       setGroupStageOver(schedulesData.groupStageOver);
       setBracketPlayLive(schedulesData.bracketPlayLive);
@@ -67,6 +74,7 @@ export const useSchedules = () => {
   return {
     scheduleRounds,
     scheduleMatches,
+    bracketMatches,
     groupStageActive,
     groupStageOver,
     bracketPlayLive,
