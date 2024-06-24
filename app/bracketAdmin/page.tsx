@@ -21,6 +21,7 @@ import useTeams from "../hooks/useTeams";
 import { saveDataUtil } from "../utils/dataUtils";
 import { Input } from "@/components/ui/input";
 import Cookies from "js-cookie";
+import { Match } from "../interfaces/Match";
 
 const BracketAdmin: React.FC = () => {
   const {
@@ -67,7 +68,171 @@ const BracketAdmin: React.FC = () => {
     }
   }, [bracketMatches]);
 
-  const handleWinnerChange = async (matchId: string, winnerId: string) => {
+  // const handleInitialWinnerChange = async (
+  //   matchId: string,
+  //   winnerId: string
+  // ) => {
+  //   console.log("handleInitialWinnerChange", matchId, winnerId);
+
+  //   let updatedBracketData = bracketData.map((match) => {
+  //     if (match.id === matchId) {
+  //       const updatedParticipants = match.participants.map((participant) => ({
+  //         ...participant,
+  //         isWinner: participant.id === winnerId,
+  //         resultText: participant.id === winnerId ? "W" : "L",
+  //       }));
+  //       return {
+  //         ...match,
+  //         state: "DONE",
+  //         participants: updatedParticipants,
+  //       };
+  //     }
+  //     return match;
+  //   });
+
+  //   const currentMatch = updatedBracketData.find(
+  //     (match) => match.id === matchId
+  //   );
+  //   const winner = currentMatch?.participants.find((p) => p.id === winnerId);
+
+  //   if (currentMatch?.nextMatchId && winner) {
+  //     updatedBracketData = updatedBracketData.map((match) => {
+  //       if (match.id === currentMatch.nextMatchId) {
+  //         const updatedNextMatchParticipants = match.participants.map(
+  //           (participant) =>
+  //             participant.name.includes("Winner")
+  //               ? {
+  //                   ...participant,
+  //                   id: winner.id,
+  //                   name: winner.name,
+  //                   isWinner: false,
+  //                   status: null,
+  //                   resultText: "",
+  //                 }
+  //               : participant
+  //         );
+  //         return {
+  //           ...match,
+  //           participants: updatedNextMatchParticipants,
+  //         };
+  //       }
+  //       return match;
+  //     });
+  //   }
+
+  //   console.log("bracket data updated", updatedBracketData);
+
+  //   setBracketData(updatedBracketData);
+
+  //   try {
+  //     console.log("saving data");
+  //     await saveDataUtil({
+  //       bracketMatches: updatedBracketData,
+  //       bracketPlayLive: true,
+  //     });
+  //     console.log("data saved");
+  //     toast({
+  //       title: "Success",
+  //       description: "Bracket data updated successfully",
+  //       variant: "default",
+  //       duration: 3000,
+  //     });
+  //   } catch (error) {
+  //     console.error("An error occurred:", error);
+  //     toast({
+  //       title: "Error",
+  //       description: "Failed to update bracket data",
+  //       variant: "destructive",
+  //       duration: 3000,
+  //     });
+  //   }
+  // };
+
+  const handleUpdateWinnerChange = async (
+    matchId: string,
+    winnerId: string
+  ) => {
+    console.log("handleUpdateWinnerChange", matchId, winnerId);
+
+    let updatedBracketData = bracketData.map((match) => {
+      if (match.id === matchId) {
+        const updatedParticipants = match.participants.map((participant) => ({
+          ...participant,
+          isWinner: participant.id === winnerId,
+          resultText: participant.id === winnerId ? "W" : "L",
+        }));
+        return {
+          ...match,
+          state: "DONE",
+          participants: updatedParticipants,
+        };
+      }
+      return match;
+    });
+
+    const currentMatch = updatedBracketData.find(
+      (match) => match.id === matchId
+    );
+    const winner = currentMatch?.participants.find((p) => p.id === winnerId);
+
+    if (currentMatch?.nextMatchId && winner) {
+      updatedBracketData = updatedBracketData.map((match) => {
+        if (match.id === currentMatch.nextMatchId) {
+          const updatedNextMatchParticipants = match.participants.map(
+            (participant) =>
+              participant.id === currentMatch.participants[0].id ||
+              participant.id === currentMatch.participants[1].id
+                ? {
+                    ...participant,
+                    id: winner.id,
+                    name: winner.name,
+                    isWinner: false,
+                    status: null,
+                    resultText: "",
+                  }
+                : participant
+          );
+          return {
+            ...match,
+            participants: updatedNextMatchParticipants,
+          };
+        }
+        return match;
+      });
+    }
+
+    console.log("bracket data updated", updatedBracketData);
+
+    setBracketData(updatedBracketData);
+
+    try {
+      console.log("saving data");
+      await saveDataUtil({
+        bracketMatches: updatedBracketData,
+        bracketPlayLive: true,
+      });
+      console.log("data saved");
+      toast({
+        title: "Success",
+        description: "Bracket data updated successfully",
+        variant: "default",
+        duration: 3000,
+      });
+    } catch (error) {
+      console.error("An error occurred:", error);
+      toast({
+        title: "Error",
+        description: "Failed to update bracket data",
+        variant: "destructive",
+        duration: 3000,
+      });
+    }
+  };
+
+  const handleInitialWinnerChange = async (
+    matchId: string,
+    winnerId: string
+  ) => {
     console.log("handleWinnerChange", matchId, winnerId);
 
     let updatedBracketData = bracketData.map((match) => {
@@ -163,6 +328,16 @@ const BracketAdmin: React.FC = () => {
     });
   };
 
+  const handleWinnerButtonClick = (match: Game, participantId: string) => {
+    if (match.state === "DONE") {
+      console.log("match is done, updating winner");
+      handleUpdateWinnerChange(match.id, participantId);
+    } else {
+      console.log("match is not done, marking initial winner");
+      handleInitialWinnerChange(match.id, participantId);
+    }
+  };
+
   const columns: ColumnDef<Game>[] = [
     {
       accessorKey: "name",
@@ -237,7 +412,7 @@ const BracketAdmin: React.FC = () => {
                       : ""
                   }
                   onClick={() =>
-                    handleWinnerChange(match.id, match.participants[0].id)
+                    handleWinnerButtonClick(match, match.participants[0].id)
                   }
                 >
                   {match.participants[0].name}{" "}
@@ -257,7 +432,7 @@ const BracketAdmin: React.FC = () => {
                       : ""
                   }
                   onClick={() =>
-                    handleWinnerChange(match.id, match.participants[1].id)
+                    handleWinnerButtonClick(match, match.participants[1].id)
                   }
                 >
                   {match.participants[1].name}{" "}
