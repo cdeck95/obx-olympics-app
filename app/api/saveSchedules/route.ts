@@ -32,14 +32,19 @@ export async function POST(request: Request) {
       console.log(data.schedule[i].matches);
     }
 
+    console.log("about to write file");
+
     // Write the updated data back to the file
     await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), "utf8");
+
+    console.log("file written");
 
     return NextResponse.json({
       message: "Schedules saved successfully",
     });
-  } catch (error) {
+  } catch (error: any) {
     console.error("An error occurred while saving schedules:", error);
+    console.log(error.message);
     return NextResponse.json(
       { message: "Failed to save schedules: " + error },
       { status: 500 }
