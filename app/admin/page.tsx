@@ -376,6 +376,8 @@ const AdminPage: React.FC = () => {
       });
 
       if (!response.ok) {
+        console.log("Failed to save schedules");
+        console.log("Response:", response);
         throw new Error("Failed to save schedules");
       }
 
