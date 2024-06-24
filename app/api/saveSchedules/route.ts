@@ -1,43 +1,37 @@
 import { NextResponse } from "next/server";
-import path from "path";
-import fs from "fs/promises";
+import { list, put } from "@vercel/blob";
 
 export async function POST(request: Request) {
   try {
     const updatedSchedule = await request.json();
-    const dataFilePath = path.join(process.cwd(), "app/data/schedules.json");
 
-    // Log received data for debugging
-    console.log("Received schedule data:", updatedSchedule);
+    // List the blobs to find the unique URL for the 'schedules.json'
+    const { blobs } = await list();
+    const scheduleBlob = blobs.find((blob) =>
+      blob.pathname.startsWith("schedules.json")
+    );
 
-    for (let i = 0; i < updatedSchedule.schedule.length; i++) {
-      console.log(updatedSchedule.schedule[i].matches);
+    if (!scheduleBlob) {
+      throw new Error("schedules.json not found");
     }
 
-    // Read the existing data
-    const data = JSON.parse(await fs.readFile(dataFilePath, "utf8"));
+    const blobUrl = `${scheduleBlob.url}?timestamp=${Date.now()}`;
 
-    // Log existing data for debugging
-    console.log("Existing schedule data:", data);
+    // Fetch the existing data from the blob
+    const response = await fetch(blobUrl);
+    const data = await response.json();
 
     // Update the full schedule data
     data.schedule = updatedSchedule.schedule;
     data.groupStageActive = updatedSchedule.groupStageActive;
     data.groupStageOver = updatedSchedule.groupStageOver;
 
-    // Log updated data for debugging
-    console.log("Updated schedule data:", data);
-
-    for (let i = 0; i < data.schedule.length; i++) {
-      console.log(data.schedule[i].matches);
-    }
-
-    console.log("about to write file");
-
-    // Write the updated data back to the file
-    await fs.writeFile(dataFilePath, JSON.stringify(data, null, 2), "utf8");
-
-    console.log("file written");
+    // Upload the updated data back to the blob without adding a random suffix
+    await put("schedules.json", JSON.stringify(data), {
+      access: "public",
+      contentType: "application/json",
+      addRandomSuffix: false,
+    });
 
     return NextResponse.json({
       message: "Schedules saved successfully",

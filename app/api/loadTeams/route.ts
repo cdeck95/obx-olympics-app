@@ -1,17 +1,34 @@
 import { NextRequest, NextResponse } from "next/server";
-import path from "path";
-import fs from "fs";
+import { list } from "@vercel/blob";
 
-export const GET = async (req: NextRequest) => {
+export async function GET(req: NextRequest) {
   try {
-    const filePath = path.join(process.cwd(), "app/data/teams.json");
-    const fileContents = await fs.promises.readFile(filePath, "utf8");
-    const data = JSON.parse(fileContents);
-    return NextResponse.json(data, { status: 200 });
-  } catch (error) {
+    // List the blobs to find the unique URL for the 'teams.json'
+    const { blobs } = await list();
+    const teamsBlob = blobs.find((blob) =>
+      blob.pathname.startsWith("teams.json")
+    );
+
+    if (!teamsBlob) {
+      throw new Error("teams.json not found");
+    }
+
+    const blobUrl = teamsBlob.url;
+
+    // Add a cache-busting query parameter
+    const cacheBustingUrl = `${blobUrl}?timestamp=${Date.now()}`;
+
+    // Fetch the actual content of the blob
+    const response = await fetch(cacheBustingUrl, { cache: "no-store" });
+    const data = await response.json();
+
+    // Return the teams data
+    return NextResponse.json(data);
+  } catch (error: any) {
+    console.error("Error loading data:", error);
     return NextResponse.json(
       { message: "Error loading data", error },
       { status: 500 }
     );
   }
-};
+}

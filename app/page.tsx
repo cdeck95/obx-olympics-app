@@ -50,6 +50,27 @@ export default function Home() {
     }
   }, [teamsData]);
 
+  // useEffect(() => {
+  //   const uploadSchedules = async () => {
+  //     try {
+  //       const response = await fetch("/api/uploadSchedule", {
+  //         method: "GET",
+  //       });
+
+  //       if (!response.ok) {
+  //         throw new Error("Failed to upload schedules");
+  //       }
+
+  //       const data = await response.json();
+  //       console.log("File uploaded successfully:", data.url);
+  //     } catch (error) {
+  //       console.error("Error uploading schedules:", error);
+  //     }
+  //   };
+
+  //   uploadSchedules();
+  // }, []);
+
   useEffect(() => {
     if (scheduleRounds) {
       try {

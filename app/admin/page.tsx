@@ -199,6 +199,11 @@ const AdminPage: React.FC = () => {
                     : match
                 )
               );
+              setUnsavedChanges((prev) => {
+                const newSet = new Set(prev);
+                newSet.add(row.original.id);
+                return newSet;
+              });
             }}
           >
             <SelectTrigger className="min-w-[130px]">
@@ -231,6 +236,7 @@ const AdminPage: React.FC = () => {
                 (station) => station.id === Number(e)
               );
               if (newStation) {
+                console.log("New Station:", newStation);
                 setMatches((prevMatches) =>
                   prevMatches.map((match) =>
                     match.id === row.original.id
@@ -241,6 +247,11 @@ const AdminPage: React.FC = () => {
                       : match
                   )
                 );
+                setUnsavedChanges((prev) => {
+                  const newSet = new Set(prev);
+                  newSet.add(row.original.id);
+                  return newSet;
+                });
               }
             }}
           >
@@ -388,7 +399,10 @@ const AdminPage: React.FC = () => {
         variant: "default",
         duration: 3000,
       });
-      loadSchedules();
+
+      setTimeout(() => {
+        loadSchedules();
+      }, 1000); // 1000 milliseconds = 1 second
     } catch (error) {
       console.error("An error occurred:", error);
       toast({
