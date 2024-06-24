@@ -1,15 +1,31 @@
-import { NextResponse } from "next/server";
-import path from "path";
-import fs from "fs/promises";
+import { NextRequest, NextResponse } from "next/server";
+import { list } from "@vercel/blob";
 
-export async function GET() {
+export async function GET(req: NextRequest) {
   try {
-    const dataFilePath = path.join(process.cwd(), "app/data/stations.json");
-    const data = await fs.readFile(dataFilePath, "utf8");
-    const parsedData = JSON.parse(data);
+    // List the blobs to find the unique URL for the 'stations.json'
+    const { blobs } = await list();
+    const stationsBlob = blobs.find((blob) =>
+      blob.pathname.startsWith("stations.json")
+    );
+
+    if (!stationsBlob) {
+      throw new Error("stations.json not found");
+    }
+
+    const blobUrl = stationsBlob.url;
+
+    // Add a cache-busting query parameter
+    const cacheBustingUrl = `${blobUrl}?timestamp=${Date.now()}`;
+
+    // Fetch the actual content of the blob
+    const response = await fetch(cacheBustingUrl, { cache: "no-store" });
+    const parsedData = await response.json();
     const stations = parsedData.stations;
+
+    // Return the stations data
     return NextResponse.json({ stations });
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error loading stations:", error);
     return NextResponse.json(
       { error: "Error loading stations" },

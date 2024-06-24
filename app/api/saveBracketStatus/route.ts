@@ -1,31 +1,43 @@
 import { NextResponse } from "next/server";
-import fs from "fs";
-import path from "path";
+import { list, put } from "@vercel/blob";
 
-export async function POST(req: Request) {
+export async function POST(request: Request) {
   try {
-    const data = await req.json();
-    console.log("Received data:", data);
-    const filePath = path.join(process.cwd(), "app", "data", "schedules.json");
-    console.log("File path:", filePath);
+    const data = await request.json();
 
-    // Read existing data from the schedules.json file
-    const existingData = JSON.parse(fs.readFileSync(filePath, "utf8"));
-    console.log("Existing data:", existingData);
+    // List the blobs to find the unique URL for the 'schedules.json'
+    const { blobs } = await list();
+    const scheduleBlob = blobs.find((blob) =>
+      blob.pathname.startsWith("schedules.json")
+    );
+
+    if (!scheduleBlob) {
+      throw new Error("schedules.json not found");
+    }
+
+    const blobUrl = `${scheduleBlob.url}?timestamp=${Date.now()}`;
+
+    // Fetch the existing data from the blob
+    const response = await fetch(blobUrl);
+    const existingData = await response.json();
 
     // Update the bracketMatches and bracketPlayLive fields in the existing data
     existingData.bracketMatches = data.bracketMatches;
     existingData.bracketPlayLive = data.bracketPlayLive;
     existingData.bracketPlayOver = data.bracketPlayOver;
 
-    // Write the updated data back to the schedules.json file
-    fs.writeFileSync(filePath, JSON.stringify(existingData, null, 2), "utf8");
+    // Upload the updated data back to the blob without adding a random suffix
+    await put("schedules.json", JSON.stringify(existingData), {
+      access: "public",
+      contentType: "application/json",
+      addRandomSuffix: false,
+    });
 
     return NextResponse.json({
       message: "Bracket status updated successfully",
     });
-  } catch (err) {
-    console.error("Error saving data:", err);
+  } catch (error: any) {
+    console.error("Error saving data:", error);
     return NextResponse.json({ message: "Error saving data" }, { status: 500 });
   }
 }
