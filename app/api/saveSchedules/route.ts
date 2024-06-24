@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("An error occurred while saving schedules:", error);
     return NextResponse.json(
-      { message: "Failed to save schedules" },
+      { message: "Failed to save schedules: " + error },
       { status: 500 }
     );
   }
